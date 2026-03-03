@@ -21,43 +21,37 @@ REGLAS DE ORO:
 // ==========================================
 
 async function processIntent(userText) {
-    // Usamos la API KEY que ya tienes definida arriba
     try {
-        // Cambiamos a 'gemini-pro' y usamos 'v1' que es la más compatible
-       // Prueba con esta URL exacta (v1 y gemini-1.5-pro)
-const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        // Usamos gemini-1.5-flash-latest que es la dirección más estable
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
         
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 contents: [{
-                    parts: [{ text: SYSTEM_PROMPT + "\n\nUsuario dice: " + userText }]
+                    parts: [{ text: SYSTEM_PROMPT + "\n\nUsuario: " + userText }]
                 }]
             })
         });
 
         const data = await response.json();
 
-        // Si hay un error de Google, lo capturamos
         if (data.error) {
-            console.error("Detalle del error:", data.error);
-            // Si gemini-pro también falla, intentamos una última vez con v1beta
-            return "Lo siento, Google reporta un error: " + data.error.message;
+            console.error("Detalle del error:", data.error.message);
+            return "Error de Google: " + data.error.message;
         }
 
         if (data.candidates && data.candidates[0].content) {
             return data.candidates[0].content.parts[0].text;
         }
         
-        return "Recibí tu mensaje, pero no pude generar una respuesta. ¿Intentamos de nuevo?";
+        return "No pude procesar la respuesta, intenta de nuevo.";
 
     } catch (error) {
-        console.error("Error de red:", error);
-        return "No hay conexión con el servidor. Revisa si estás usando Live Server.";
+        return "Error de red: " + error.message;
     }
 }
-
 // ==========================================
 // 3. INTERFAZ DINÁMICA (UI Y EFECTOS)
 // ==========================================
