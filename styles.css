@@ -1,0 +1,161 @@
+    :root {
+            --primary: #0f172a; /* Navy Profesional */
+            --accent: #2563eb;  /* Azul Corporativo */
+            --bg: #ffffff;
+            --bot-msg: #f1f5f9;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            margin: 0; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        /* --- Botón Flotante --- */
+        #chat-launcher {
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px;
+            background: var(--primary); 
+            color: white;
+            width: 65px; 
+            height: 65px; 
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            cursor: pointer; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 10000; 
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #chat-launcher:hover { transform: scale(1.1); background: var(--accent); }
+        #chat-launcher i { font-size: 24px; }
+
+        /* --- Ventana de Chat --- */
+        #chat-widget {
+            position: fixed; 
+            bottom: 110px; 
+            right: 30px;
+            width: 380px; 
+            height: 600px; 
+            background: white;
+            border-radius: 24px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden;
+            z-index: 9999; 
+            transition: 0.4s ease;
+        }
+        .chat-hidden { 
+            opacity: 0; 
+            transform: translateY(40px) scale(0.8); 
+            pointer-events: none; 
+        }
+
+        .chat-header { 
+            background: var(--primary); 
+            color: white; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .header-info { display: flex; align-items: center; gap: 12px; }
+        .header-info img { 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 50%; 
+            border: 2px solid var(--accent); 
+            object-fit: cover; 
+        }
+        .header-info h4 { margin: 0; font-size: 1rem; }
+        .header-info p { margin: 0; font-size: 0.7rem; opacity: 0.8; }
+
+        .chat-body { 
+            flex: 1; 
+            padding: 20px; 
+            overflow-y: auto; 
+            background: #fff; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+        .msg { 
+            padding: 12px 16px; 
+            border-radius: 18px; 
+            font-size: 0.9rem; 
+            line-height: 1.5; 
+            max-width: 85%; 
+        }
+        .bot { background: var(--bot-msg); color: #334155; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .user { background: var(--accent); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+        .chat-footer { 
+            padding: 15px; 
+            border-top: 1px solid #f1f5f9; 
+            display: flex; 
+            gap: 10px; 
+            background: #fff;
+        }
+        .chat-footer input { 
+            flex: 1; 
+            border: 1px solid #e2e8f0; 
+            outline: none; 
+            padding: 10px 15px; 
+            border-radius: 12px; 
+            font-size: 0.9rem;
+        }
+        .chat-footer button { 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            width: 42px; 
+            height: 42px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+        }
+
+        @media (max-width: 450px) { #chat-widget { width: 90%; right: 5%; bottom: 90px; height: 80vh; } }
+
+        /* Estilo para los botones rápidos dentro del chat */
+.btn-quick {
+    background: white;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.btn-quick:hover {
+    background: var(--accent);
+    color: white;
+}
+
+/* Animación de los puntos de carga */
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 10px;
+}
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: bounce 1.3s infinite;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+}

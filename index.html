@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente Virtual | Miguel Carrasquilla</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+   
+</head>
+<body>
+
+
+  <div id="chat-launcher" onclick="toggleChat()">
+    <i class="fas fa-robot"></i>
+</div>
+
+<div id="chat-widget" class="chat-hidden">
+    <div class="chat-header">
+        <div class="header-info">
+            <img src="img/icono-pagina.ico" alt="LogiBot"> 
+            <div>
+                <h4>LogiBot</h4>
+                <p>Especialista en Logística</p>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="close-btn">&times;</button>
+    </div>
+
+    <div id="chat-body" class="chat-body">
+        <div class="msg bot">
+            ¡Hola! Soy <b>LogiBot</b>. 👋 <br>
+            Analizo procesos logísticos y ayudo a Miguel a optimizarlos con datos. ¿Qué área te interesa mejorar?
+        </div>
+        
+        <div id="quick-buttons">
+            <button class="btn-quick" onclick="handleQuickClick('perfil')">Perfil</button>
+            <button class="btn-quick" onclick="handleQuickClick('tech')">Python</button>
+            <button class="btn-quick" onclick="handleQuickClick('experiencia')">Puertos</button>
+        </div>
+    </div>
+
+    <div class="chat-footer">
+        <input type="text" id="chat-input" placeholder="Escribe tu consulta..." onkeypress="checkEnter(event)">
+        <button onclick="handleUserMsg()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<script src="lagitchat.js"></script>
+</body>
+</html>
