@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="style.css">
-   <link rel="icon" type="image/png" href="img/icono-pagina.ico">
+   <link rel="icon" type="image/png" href="img/favicon_calculadora.ico">
    
 
 </head>
@@ -18,12 +18,10 @@
     <div class="app-container">
         <aside class="sidebar">
 
-           
-
-      <div class="sidebar-logo">
+           <div class="sidebar-logo">
     <div class="logo-wrapper">
         <div class="logo-box">
-            <i class="fas fa-shield-halved"></i> 
+            <i class="fas fa-hand-holding-dollar"></i> 
         </div>
         <div class="logo-text">
             <h2 class="app-name">Laboral<span>Pro</span></h2>
@@ -31,6 +29,7 @@
         </div>
     </div>
 </div>
+
 
             <nav class="nav-menu">
     <div class="nav-group">
@@ -92,6 +91,7 @@
     <div id="dynamic-title">
         <h1 style="font-size: 18px; font-weight: 800; margin: 0;">Calculadora de Liquidación Prestacional</h1>
         <p style="font-size: 12px; color: var(--text-muted); margin: 0;">Basado en normatividad vigente del Código Sustantivo del Trabajo.</p>
+    
     </div>
 
     <div class="top-bar-actions">
@@ -104,6 +104,18 @@
     </button>
     </div>
 </header>
+
+    <div class="intro-container">
+    <div class="info-banner-colombia">
+        <div class="banner-icon">
+            <i class="fas fa-balance-scale"></i>
+        </div>
+        <div class="banner-content">
+            <h4>Marco Legal Colombiano</h4>
+            <p>Esta herramienta realiza los cálculos basados en el <strong>Código Sustantivo del Trabajo (CST)</strong>. Ideal para liquidaciones de contratos laborales en Colombia con valores vigentes para el año 2026.</p>
+        </div>
+    </div>
+</div>
 
             <div class="content-area">
                 
@@ -167,7 +179,20 @@
 
 
 
-                        <div class="checklist-container">
+    <div class="checklist-container">
+
+                       <div class="guia-liquidacion">
+                       <div class="guia-icon">
+                        <i class="fas fa-info-circle"></i>
+                       </div>
+                       <div class="guia-text">
+                        <strong>Personaliza tu liquidación:</strong> 
+                         Selecciona las opciones adicionales que necesites
+                          incluir. Al activar cada casilla, aparecerán campos 
+                          específicos para ingresar valores o cantidades.
+                      </div>
+                   </div>
+
                             <label class="check-item">
                                 <input type="checkbox" 
                                 id="check_he" onchange="toggleSec('sec_he')"> 
@@ -179,33 +204,29 @@
                             <label class="check-item"><input type="checkbox" id="check_deduc" onchange="toggleSec('sec_deduc')"> <i class="fas fa-shopping-cart"></i> Deducciones/Consumos</label>
                         </div>
 
-                        <div class="checklist-container">
-                            <label class="check-item">
-                            <input type="checkbox" id="chk_dotacion">
-                            <i class="fas fa-tshirt"></i> Dotación
-                            </label>
+                      <div class="checklist-container">
+    <label class="check-item">
+        <input type="checkbox" id="chk_dotacion" onchange="toggleSec('sec_dotacion')">
+        <i class="fas fa-tshirt"></i> Dotación
+    </label>
 
-                        <label class="check-item">
-                            <input type="checkbox" id="chk_bonos">
-                            <i class="fas fa-ticket-alt"></i> Bonos
-                            </label>
-                        </div>
+    <label class="check-item">
+        <input type="checkbox" id="chk_bonos" onchange="toggleSec('sec_bonos')">
+        <i class="fas fa-ticket-alt"></i> Bonos
+    </label>
+
+    <label class="check-item">
+        <input type="checkbox" id="incluir_sueldo" onchange="toggleSec('sec_sueldo')">
+        <i class="fas fa-wallet"></i> Liquidar Sueldo Pendiente
+    </label>
+<label class="check-item">
+        <input type="checkbox" id="incluir_vacaciones" onchange="toggleSec('sec_vacaciones')">
+        <i class="fas fa-umbrella-beach"></i> Vacaciones no Gozadas
+    </label>
+    
+</div>
 
 
-         <div class="checklist-container">
-                <label class="check-item">
-                <input type="checkbox" id="incluir_sueldo" checked onchange="actualizarTodo()">
-                          <i class="fas fa-wallet"></i> Liquidar Sueldo Pendiente
-                </label>
-                <label class="check-item">
-                    <input type="checkbox" id="incluir_vacaciones" checked onchange="actualizarTodo()">
-                     <i class="fas fa-umbrella-beach"></i> Vacaciones no Gozadas
-                 </label>
-                        <label class="check-item">
-                        <input type="checkbox" id="incluir_prestaciones" checked onchange="actualizarTodo()">
-                       <i class="fas fa-coins"></i> Prestaciones Sociales
-                  </label>
-          </div>
 
                         <div id="sec_he" style="display:none; padding: 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px;">
                             <div class="form-grid">
@@ -215,8 +236,6 @@
                             <div class="input-group"><label>Horas Extra Nocturnas (Cant.)</label><input type="number" id="h_hen" value="0" oninput="actualizarTodo()"></div>
                             </div>
                         </div>
-                       
-                    
 
                         <div id="sec_indem" style="display:none; padding: 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px;">
                             <div class="input-group" style="max-width: 300px;"><label>Días a Indemnizar</label><input type="number" id="dias_indem" value="0" oninput="actualizarTodo()"></div>
@@ -228,7 +247,47 @@
                                 <div class="input-group"><label>Otros Descuentos ($)</label><input type="number" id="d_otros" value="0" oninput="actualizarTodo()"></div>
                             </div>
                         </div>
+
+
+<div class="extras-container">
+
+                    <div id="sec_dotacion" style="display:none; padding: 15px 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px; width: fit-content; border: 1px solid #e2e8f0;">
+                        <div class="input-group" style="max-width: 180px; margin-bottom: 0;">
+                            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 8px;">Valor Dotación ($)</label>
+                            <input type="number" 
+                                id="v_dotacion" 
+                                value="0" 
+                                oninput="actualizarTodo()" 
+                                style="width: 100%; padding: 8px; text-align: center; font-weight: bold; border-radius: 8px; border: 1px solid #cbd5e1; outline: none;">
+                        </div>
                     </div>
+
+ 
+                    <div id="sec_bonos" style="display:none; padding: 15px 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px; width: fit-content; border: 1px solid #e2e8f0;">
+                            <div class="input-group" style="max-width: 200px; margin-bottom: 0;">
+                            <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 8px;">Bonificaciones Extra ($)</label>
+                            <input type="number" id="v_bonos" value="0" oninput="actualizarTodo()" 
+                            style="width: 100%; padding: 8px; text-align: center; font-weight: bold; border-radius: 8px; border: 1px solid #cbd5e1; outline: none;">
+                        </div>
+                    </div>
+
+                    <div id="sec_sueldo" style="display:none; padding: 15px 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px; width: fit-content; border: 1px solid #e2e8f0;">
+                      <div class="input-group" style="max-width: 180px; margin-bottom: 0;">
+                          <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 8px;">Días Sueldo Pendiente</label>
+                         <input type="number" id="dias_pendientes" value="0" oninput="actualizarTodo()" 
+                        style="width: 100%; padding: 8px; text-align: center; font-weight: bold; border-radius: 8px; border: 1px solid #cbd5e1; outline: none;">
+                        </div>
+                    </div>
+
+                     <div id="sec_vacaciones" style="display:none; padding: 15px 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px; width: fit-content; border: 1px solid #e2e8f0;">
+                          <div class="input-group" style="max-width: 180px; margin-bottom: 0;">
+                           <label style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 8px;">Días Vacaciones Pendientes</label>
+                          <input type="number" id="dias_vac_pendientes" value="0" oninput="actualizarTodo()" 
+                          style="width: 100%; padding: 8px; text-align: center; font-weight: bold; border-radius: 8px; border: 1px solid #cbd5e1; outline: none;">
+                            </div>
+              </div>
+</div>
+        </div>
 
  <div class="card">
     <div class="card-title">

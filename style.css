@@ -7,7 +7,7 @@
         --primary-soft: #e0e7ff;
         --text-main: #1e293b;
         --text-muted: #64748b;
-        --bg-body: #f8fafc;
+        --bg-body: #f8fafc;   /* Fondo de pagina*/
         --white: #ffffff;
         --sidebar-w: 260px;
         --radius: 16px;
@@ -16,7 +16,7 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-    
+
     body { 
         background: var(--bg-body); 
         color: var(--text-main); 
@@ -27,7 +27,9 @@
 
     .app-container { display: flex; width: 100%; height: 100%; overflow: hidden; }
 
-  .sidebar-logo {
+/* estilos de logo pagina*/
+
+.sidebar-logo {
     height: 82px; /* <--- Fuerza la misma altura que suele tener un encabezado estándar */
     display: flex;
     align-items: center; /* Centra el logo verticalmente */
@@ -55,7 +57,6 @@
     border: 1px solid #bfdbfe;
 }
 
-
 .logo-text {
     display: flex;
     flex-direction: column;
@@ -81,22 +82,27 @@
     margin-top: 4px;
     text-transform: uppercase;
 }
-   /* Contenedor del Menú */
+
+/* Contenedor del Menú - Ahora con un tono azul pastel muy suave */
 .nav-menu {
     padding: 20px;
-    background: #f8fafc; /* Fondo suave */
-    border-radius: 20px;
+    background: #f0f7ff; /* Azul pastel ultra claro */
+    border-radius: 24px;
+    border: 1px solid #e2eefc; /* Borde sutil para definirlo */
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); /* Sombra interna para profundidad */
 }
 
-/* Títulos de sección (Operaciones/Ajustes) */
+/* Títulos de sección - Un azul grisáceo más legible */
 .nav-section-title {
-    font-size: 0.75rem;
-    font-weight: 800;
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: #94a3b8;
+    letter-spacing: 1.5px;
+    color: #64748b; 
+    margin-top: 15px;
     margin-bottom: 12px;
     padding-left: 10px;
+    opacity: 0.8;
 }
 
 /* Ítems del Menú */
@@ -104,62 +110,63 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    padding: 12px 15px;
-    margin-bottom: 8px;
-    border-radius: 12px;
-    color: #475569;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 10px 14px;
+    margin-bottom: 6px;
+    border-radius: 14px;
+    color: #475569; /* Gris azulado oscuro */
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
 }
 
-/* Caja del ícono */
+/* Caja del ícono - Estilo minimalista */
 .nav-icon-box {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 12px;
-    border-radius: 8px;
-    background: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    background: #ffffff; /* Iconos siempre en blanco para resaltar */
+    color: #64748b;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     transition: all 0.3s;
 }
 
-/* Hover Effect */
+/* Hover Effect - Azul pastel al pasar el mouse */
 .nav-item:hover {
-    background: #ffffff;
-    color: #3b82f6;
-    transform: translateX(5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    background: #e0e7ff; /* Azul lavanda muy suave */
+    color: #2563eb;
+    transform: translateX(4px);
 }
 
 .nav-item:hover .nav-icon-box {
-    color: #3b82f6;
-    transform: scale(1.1);
+    color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.1);
 }
 
-/* Estado ACTIVO */
+/* Estado ACTIVO - El azul de tu botón "Nueva Liquidación" */
 .nav-item.active {
-    background: #3b82f6;
-    color: white !important;
-    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+    background: #3b82f6; /* El azul principal de tu imagen */
+    color: #ffffff !important;
+    box-shadow: 0 8px 15px rgba(59, 130, 246, 0.25);
 }
 
 .nav-item.active .nav-icon-box {
-    background: rgba(255,255,255,0.2);
-    color: white;
+    background: rgba(255, 255, 255, 0.2); /* Transparencia elegante */
+    color: #ffffff;
     box-shadow: none;
 }
 
 .nav-item.active span {
-    font-weight: 700;
+    font-weight: 600;
 }
 
     /* estilos de encabezado */
 
-    .main-view { 
+.main-view { 
         flex: 1; 
         display: flex; 
         flex-direction: column;
@@ -934,107 +941,86 @@
 }
 
 /* =============================================
-   TOTAL NETO - ESPACIADO Y AIRE
+   TOTAL NETO - ESTILO PROFESIONAL AZULADO
    ============================================= */
 .total-neto-container {
-    margin-top: 35px;           /* Más separación de las cajas de arriba */
-    padding: 40px 40px !important; /* Mucho más aire interno */
-    background: linear-gradient(135deg, var(--primary) 0%, #113083 100%) !important;
-    border-radius: 20px !important;
-    color: white !important;
+    margin-top: 35px;
+    padding: 30px 40px !important;
+    /* Cambiamos el gradiente oscuro por uno pastel vibrante */
+    background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%) !important;
+    border-radius: 15px !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
     overflow: hidden;
-    border: none !important;
-    box-shadow: 0 12px 24px rgba(59, 130, 246, 0.2) !important;
+    /* Borde sutil que combina con las tarjetitas */
+    border: 2px solid #e2eefc !important;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.08) !important;
 }
 
-/* Contenedor de la izquierda (Textos) */
-.total-neto-info {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;                  /* Espacio entre el título y la descripción */
-    position: relative;
-    z-index: 2;
+/* Línea decorativa lateral para dar énfasis */
+.total-neto-container::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: #3b82f6; /* El azul Pro */
 }
 
 .total-neto-info span {
-    font-size: 14px !important;
+    font-size: 13px !important;
     font-weight: 800 !important;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    display: inline-block;
+    letter-spacing: 1.2px;
+    color: #3b82f6 !important; /* Texto en azul */
+    display: block;
+    margin-bottom: 5px;
 }
 
 .total-neto-info p {
-    font-size: 11.5px !important; /* Un poco más pequeña para que quepa todo */
+    font-size: 12px !important;
     margin: 0 !important;
-    color: rgba(255, 255, 255, 0.8) !important;
-    max-width: 600px;           /* Aumentamos el ancho máximo para el nuevo texto */
-    line-height: 1.6 !important; /* Espaciado entre líneas para legibilidad */
-    font-style: italic;          /* Un toque elegante */
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    color: #64748b !important; /* Gris azulado suave */
+    max-width: 500px;
+    line-height: 1.5 !important;
+    font-style: normal; /* Menos distracciones */
 }
-/* Contenedor de la derecha (Cifras) */
+
+/* Contenedor de la cifra */
 .total-neto-monto {
     text-align: right;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;                   /* Espacio entre el número y la moneda */
-    position: relative;
     z-index: 2;
 }
 
 .total-neto-monto strong {
-    font-size: 1.8rem !important; /* Tamaño destacado pero elegante */
-    font-weight: 800;
-    letter-spacing: -1px;
-    color: #ffffff !important;
-    line-height: 1;
+    font-size: 2.2rem !important; /* Más grande para que destaque */
+    font-weight: 900;
+    color: #1e293b !important; /* Casi negro para máxima lectura */
+    display: block;
 }
 
 .total-neto-monto small {
-    font-size: 11px !important;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.7;
-    font-weight: 600;
+    font-size: 12px !important;
+    color: #3b82f6 !important;
+    font-weight: 700;
+    opacity: 1;
 }
 
-/* Icono Decorativo CSS (con más aire) */
+/* Icono Decorativo sutilizado */
 .total-neto-container::after {
     content: "\f53d"; 
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     position: absolute;
-    right: 5%;                  /* Movido más a la derecha */
+    right: 30px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 7rem;            /* Más grande pero muy tenue */
-    color: rgba(255, 255, 255, 0.07); 
-    pointer-events: none;
+    font-size: 5rem;
+    color: rgba(59, 130, 246, 0.05); /* Muy, muy tenue */
     z-index: 1;
-}
-
-/* Ajuste para móviles: que no se pegue al reducir pantalla */
-@media (max-width: 768px) {
-    .total-neto-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 25px;
-        padding: 30px 20px !important;
-    }
-    .total-neto-info p {
-        max-width: 100%;
-    }
-
-
-
-    .total-neto-monto {
-        text-align: center;
-    }
 }
 
 /* Estilos PDF */
@@ -1265,4 +1251,111 @@
     font-size: 10px;
     font-weight: 700;
     opacity: 0.8;
+}
+
+
+/* estilos de campos de chelick*/
+.extras-container {
+    display: flex;       /* Activa el modo horizontal */
+    flex-wrap: wrap;    /* Si no caben por el ancho, saltan abajo automáticamente */
+    gap: 15px;          /* Espacio entre cada cuadrito */
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* Forzamos a que cuando se muestren, no rompan el flex */
+.extras-container > div {
+    flex-shrink: 0;     /* Evita que se aplasten */
+}
+
+
+/* estilos de texto antes de los chelisk*/ 
+.guia-liquidacion {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f0f7ff; /* Azul pastel muy claro */
+    border-radius: 16px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border: 1px dashed #3b82f6; /* Borde punteado para que parezca una zona de acción */
+}
+
+.guia-icon {
+    font-size: 1.5rem;
+    color: #3b82f6;
+    display: flex;
+    align-items: center;
+}
+
+.guia-text {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.4;
+}
+
+.guia-text strong {
+    color: #1e293b;
+    display: block;
+    margin-bottom: 2px;
+}
+
+/* baner de introducion*/
+
+/* Contenedor para dar aire y centrar */
+.intro-container {
+    margin: 30px auto 10px auto; /* 30px de separación con el encabezado */
+    padding: 0 30px;             /* Alineado con el padding de tu content-area */
+    max-width: 1100px;            /* Ancho controlado para que no sea muy largo */
+    width: 100%;
+}
+
+.info-banner-colombia {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #ffffff;
+    /* Borde lateral azul en vez de amarillo para que combine con LaboralPro */
+    border-left: 4px solid #3b82f6; 
+    padding: 15px 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    border-top: 1px solid #f1f5f9;
+    border-right: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.banner-icon {
+    font-size: 1.5rem;
+    color: #3b82f6;
+    background: #eff6ff;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.banner-content h4 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.banner-content p {
+    margin: 4px 0 0 0;
+    color: #64748b;
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+/* Ajuste para móviles */
+@media (max-width: 768px) {
+    .info-banner-colombia {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
 }
