@@ -3,51 +3,691 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asistente Virtual | Miguel Carrasquilla</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <title>LaboralPro| Liquidación de Contrato</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+   <link rel="icon" type="image/png" href="img/icono-pagina.ico">
    
+
 </head>
 <body>
 
+    <div class="app-container">
+        <aside class="sidebar">
 
-  <div id="chat-launcher" onclick="toggleChat()">
-    <i class="fas fa-robot"></i>
+           
+
+      <div class="sidebar-logo">
+    <div class="logo-wrapper">
+        <div class="logo-box">
+            <i class="fas fa-shield-halved"></i> 
+        </div>
+        <div class="logo-text">
+            <h2 class="app-name">Laboral<span>Pro</span></h2>
+            <p class="app-tagline">SISTEMA DE LIQUIDACIÓN LEGAL</p>
+        </div>
+    </div>
 </div>
 
-<div id="chat-widget" class="chat-hidden">
-    <div class="chat-header">
-        <div class="header-info">
-            <img src="img/icono-pagina.ico" alt="LogiBot"> 
-            <div>
-                <h4>LogiBot</h4>
-                <p>Especialista en Logística</p>
-            </div>
-        </div>
-        <button onclick="toggleChat()" class="close-btn">&times;</button>
+            <nav class="nav-menu">
+    <div class="nav-group">
+        <div class="nav-section-title">Operaciones</div>
+        <a href="#" class="nav-item active" data-target="view-liquidador">
+            <div class="nav-icon-box"><i class="fas fa-calculator"></i></div>
+            <span>Liquidación Final</span>
+        </a>
+        <a href="#" class="nav-item" data-target="view-costos-jefe">
+            <div class="nav-icon-box"><i class="fas fa-chart-pie"></i></div>
+            <span>Análisis de Costos</span>
+        </a>
     </div>
 
-    <div id="chat-body" class="chat-body">
-        <div class="msg bot">
-            ¡Hola! Soy <b>LogiBot</b>. 👋 <br>
-            Analizo procesos logísticos y ayudo a Miguel a optimizarlos con datos. ¿Qué área te interesa mejorar?
+    <div class="nav-group" style="margin-top: 25px;">
+        <div class="nav-section-title">Ajustes Globales</div>
+        <a href="#" class="nav-item" data-target="view-seguridad">
+            <div class="nav-icon-box"><i class="fas fa-shield-alt"></i></div>
+            <span>Protección Social</span>
+        </a>
+        <a href="#" class="nav-item" data-target="view-empresa">
+            <div class="nav-icon-box"><i class="fas fa-building"></i></div>
+            <span>Datos Empresa</span>
+        </a>
+        <a href="#" class="nav-item" data-target="view-ley">
+            <div class="nav-icon-box"><i class="fas fa-balance-scale"></i></div>
+            <span>Parámetros de Ley</span>
+        </a>
+    </div>
+</nav>
+
+<div class="sidebar-support-box">
+    <div class="support-card">
+        <small class="support-label">CENTRO DE AYUDA</small>
+        
+        <div class="support-actions">
+            <a href="https://wa.me/tu_numero" target="_blank" class="side-btn">
+                <i class="fab fa-whatsapp"></i>
+                <span>Soporte Técnico</span>
+            </a>
+            
+            <a href="#" class="side-btn secondary" onclick="mostrarGuia()">
+                <i class="fas fa-book"></i>
+                <span>Guía de Usuario</span>
+            </a>
+        </div>
+
+        <div class="legal-notice-mini">
+            <i class="fas fa-balance-scale"></i>
+            <span>Basado en Ley 2026</span>
+        </div>
+    </div>
+</div>
+        </aside>
+
+        <main class="main-view">
+
+<header class="top-bar">
+    <div id="dynamic-title">
+        <h1 style="font-size: 18px; font-weight: 800; margin: 0;">Calculadora de Liquidación Prestacional</h1>
+        <p style="font-size: 12px; color: var(--text-muted); margin: 0;">Basado en normatividad vigente del Código Sustantivo del Trabajo.</p>
+    </div>
+
+    <div class="top-bar-actions">
+
+    <button class="action-btn-new" onclick="confirmarNuevaLiquidacion()">
+         <div class="icon-circle">
+         <i class="fas fa-plus"></i>
+         </div>
+         <span class="btn-text">Nueva Liquidación</span>
+    </button>
+    </div>
+</header>
+
+            <div class="content-area">
+                
+                <section id="view-liquidador" class="view-section active">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-user-circle"></i> Información del Empleado</div>
+                        <div class="form-grid">
+                            <div class="input-group"><label>Nombre Completo</label><input type="text" id="emp_nombre" placeholder="Ej: Miguel Angel"></div>
+                            <div class="input-group"><label>Cédula de Ciudadanía</label><input type="text" id="emp_cc" placeholder="Ej: 1045000000"></div>
+                            <div class="input-group"><label>Cargo</label><input type="text" id="emp_cargo" placeholder="Ej: Director Operativo"></div>
+                            
+                       <div class="input-group">
+                                <label>Tipo de Contrato</label>
+                                <select id="emp_contrato">
+                                    <option value="fijo">Término Fijo</option>
+                                    <option value="indefinido">Término Indefinido</option>
+                                    <option value="Obra-o-Labor">Obra o Labor</option>
+                                    <option value="Aprendizaje">Aprendizaje</option>
+
+                                    
+                                </select>
+                                <div id="grupo_obra" style="display: none; margin-top: 15px;">
+                                 <label class="label-style">Nombre de la Obra o Labor</label>
+                                 <input type="text" id="nombre_obra" class="input-style" placeholder="Ej: Proyecto Edificio Horizonte">
+                               </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-grid" style="margin-top: 25px;">
+                            <div class="input-group"><label>Fecha Inicio Labores</label><input type="date" id="fecha_inicio" onchange="actualizarTodo()"></div>
+                            <div class="input-group"><label>Fecha Terminación</label><input type="date" id="fecha_fin" onchange="actualizarTodo()"></div>
+                            <div class="input-group" style="background: var(--bg-body); padding: 10px; border-radius: 10px; justify-content: center;">
+                                <label style="justify-content: center;">Días Laborados</label>
+                                <h2 id="display_dias" style="text-align: center; color: var(--primary);">0</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-money-check-alt"></i> Salario y Recargos</div>
+                        <div class="form-grid">
+                            <div class="input-group"><label>Sueldo Básico Mensual</label><input type="number" id="sueldo_base" value="1750905" oninput="actualizarTodo()"></div>
+                            <div class="input-group">
+                                <label>Auxilio Transporte <span>(Autovalidado)</span></label>
+                                <select id="aplica_aux" disabled style="background: #f1f5f9; cursor: not-allowed;">
+                                    <option value="si">Aplica Legalmente</option>
+                                    <option value="no">No Aplica (> 2 SMMLV)</option>
+                                </select>
+                            </div>
+                        
+                        </div>
+
+                       
+
+                        <div class="dashboard-grid">
+                            <div class="dash-item"><small>Valor Día</small><span id="val_dia">$ 0</span></div>
+                            <div class="dash-item"><small>Valor Hora</small><span id="val_hora">$ 0</span></div>
+                            <div class="dash-item"><small>Base Prestacional</small><span id="val_base_pres">$ 0</span></div>
+                        </div>
+
+
+
+                        <div class="checklist-container">
+                            <label class="check-item">
+                                <input type="checkbox" 
+                                id="check_he" onchange="toggleSec('sec_he')"> 
+                                <i class="fas fa-plus-circle"></i> Horas Extra / Recargos
+                            </label>
+
+                            <label class="check-item"><input type="checkbox" id="check_indem" onchange="toggleSec('sec_indem')"> <i class="fas fa-gavel"></i> Indemnización Art. 64</label>
+                            <label class="check-item"><input type="checkbox" id="check_paz" onchange="actualizarTodo()"> <i class="fas fa-file-signature"></i> Incluir Paz y Salvo</label>
+                            <label class="check-item"><input type="checkbox" id="check_deduc" onchange="toggleSec('sec_deduc')"> <i class="fas fa-shopping-cart"></i> Deducciones/Consumos</label>
+                        </div>
+
+                        <div class="checklist-container">
+                            <label class="check-item">
+                            <input type="checkbox" id="chk_dotacion">
+                            <i class="fas fa-tshirt"></i> Dotación
+                            </label>
+
+                        <label class="check-item">
+                            <input type="checkbox" id="chk_bonos">
+                            <i class="fas fa-ticket-alt"></i> Bonos
+                            </label>
+                        </div>
+
+
+         <div class="checklist-container">
+                <label class="check-item">
+                <input type="checkbox" id="incluir_sueldo" checked onchange="actualizarTodo()">
+                          <i class="fas fa-wallet"></i> Liquidar Sueldo Pendiente
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" id="incluir_vacaciones" checked onchange="actualizarTodo()">
+                     <i class="fas fa-umbrella-beach"></i> Vacaciones no Gozadas
+                 </label>
+                        <label class="check-item">
+                        <input type="checkbox" id="incluir_prestaciones" checked onchange="actualizarTodo()">
+                       <i class="fas fa-coins"></i> Prestaciones Sociales
+                  </label>
+          </div>
+
+                        <div id="sec_he" style="display:none; padding: 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px;">
+                            <div class="form-grid">
+                                <div class="input-group"><label>Recargos Nocturnos (Cant. de Hrs)</label><input type="number" id="h_rn" value="0" oninput="actualizarTodo()"></div>
+                                <div class="input-group"><label>Recargos Dominicales (Cant. de Hrs)</label><input type="number" id="h_df" value="0" oninput="actualizarTodo()"></div>
+                            <div class="input-group"><label>Horas Extra Diurnas (Cant.)</label><input type="number" id="h_hed" value="0" oninput="actualizarTodo()"></div>
+                            <div class="input-group"><label>Horas Extra Nocturnas (Cant.)</label><input type="number" id="h_hen" value="0" oninput="actualizarTodo()"></div>
+                            </div>
+                        </div>
+                       
+                    
+
+                        <div id="sec_indem" style="display:none; padding: 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px;">
+                            <div class="input-group" style="max-width: 300px;"><label>Días a Indemnizar</label><input type="number" id="dias_indem" value="0" oninput="actualizarTodo()"></div>
+                        </div>
+
+                        <div id="sec_deduc" style="display:none; padding: 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px;">
+                            <div class="form-grid">
+                                <div class="input-group"><label>Consumos/Almuerzos ($)</label><input type="number" id="d_consumos" value="0" oninput="actualizarTodo()"></div>
+                                <div class="input-group"><label>Otros Descuentos ($)</label><input type="number" id="d_otros" value="0" oninput="actualizarTodo()"></div>
+                            </div>
+                        </div>
+                    </div>
+
+ <div class="card">
+    <div class="card-title">
+    <i class="fas fa-chart-line"></i> Resumen de Liquidación Proporcional
+</div>
+    
+    <div class="resumen-dashboard">
+        <div class="resumen-item-box">
+            <small><i class="fas fa-coins"></i> Prestaciones Sociales</small>
+            <span id="resumen_prestaciones">$ 0</span>
         </div>
         
-        <div id="quick-buttons">
-            <button class="btn-quick" onclick="handleQuickClick('perfil')">Perfil</button>
-            <button class="btn-quick" onclick="handleQuickClick('tech')">Python</button>
-            <button class="btn-quick" onclick="handleQuickClick('experiencia')">Puertos</button>
+        <div class="resumen-item-box">
+            <small><i class="fas fa-file-invoice-dollar"></i> Nómina, Extras e Indemnización</small>
+            <span id="resumen_nomina_extras">$ 0</span>
+        </div>
+        
+        <div class="resumen-item-box">
+            <small><i class="fas fa-minus-circle" style="color: #ef4444;"></i> Deducciones Totales</small>
+            <span id="resumen_deducciones">$ 0</span>
         </div>
     </div>
 
-    <div class="chat-footer">
-        <input type="text" id="chat-input" placeholder="Escribe tu consulta..." onkeypress="checkEnter(event)">
-        <button onclick="handleUserMsg()"><i class="fas fa-paper-plane"></i></button>
+</div>
+
+<div class="total-neto-container">
+    <div class="total-neto-info">
+    <span>Total Neto a Pagar</span>
+    <p>
+        Resultado del balance prestacional: incluye Cesantías, Intereses, Prima de Servicios y Vacaciones causadas; 
+        sumado a la base salarial devengada, subsidios y horas extra, tras aplicar retenciones de seguridad social (Salud/Pensión) 
+        y descuentos autorizados.
+    </p>
+</div>
+    
+    <div class="total-neto-monto">
+        <strong id="resumen_total_neto">$ 0</strong>
+        <small>Moneda: COP (Pesos Colombianos)</small>
     </div>
 </div>
 
-<script src="lagitchat.js"></script>
+<div class="disclaimer-container">
+    <div class="disclaimer-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+    </div>
+    <div class="disclaimer-text">
+        <strong>Nota Legal e Informativa:</strong>
+        <p>Esta herramienta es un simulador con fines informativos 
+            y de carácter orientativo. Los cálculos aquí presentados pueden 
+            variar según interpretaciones legales, cambios normativos o datos 
+            específicos del contrato no contemplados. LaboralPro no se hace responsable 
+            por decisiones tomadas basadas en estos resultados. Se recomienda validar la 
+            liquidación definitiva con un profesional jurídico o contable.</p>
+    </div>
+</div>
+
+<button class="btn btn-primary" onclick="generarPrevisualizacion()">
+    <i class="fas fa-file-signature"></i>
+    <span>GENERAR LIQUIDACIÓN Y PAZ Y SALVO</span>
+</button>       
+
+                </section>
+
+<div id="view-costos-jefe" class="view-section" style="display:none;">
+    <div class="card" style="border: none; background: transparent; box-shadow: none;">
+        <div class="card-title" style="font-size: 1.5rem; margin-bottom: 10px;">
+            <i class="fas fa-chart-line" style="color: #3b82f6;"></i> Proyección de Costo Empresa
+        </div>
+        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 30px;">
+            Este análisis desglosa la inversión real. Recuerde que el costo de un empleado en Colombia es aproximadamente un <b>35% - 50%</b> adicional a su salario base debido a los siguientes factores:
+        </p>
+        
+        <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            
+            <div class="cost-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #6366f1; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <div style="background: #e0e7ff; padding: 10px; border-radius: 12px; color: #6366f1;">
+                        <i class="fas fa-hand-holding-heart fa-lg"></i>
+                    </div>
+                    <span style="font-size: 0.8rem; font-weight: 800; color: #6366f1; background: #e0e7ff; padding: 4px 10px; border-radius: 20px;">12.0%</span>
+                </div>
+                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Pensión Patrono</h4>
+                <div id="costo_side_pens" style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 10px 0;">$ 0</div>
+                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Aporte a fondos de jubilación (Colpensiones o Fondos Privados) para asegurar el retiro del trabajador.</p>
+            </div>
+
+            <div class="cost-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #3b82f6; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <div style="background: #dbeafe; padding: 10px; border-radius: 12px; color: #3b82f6;">
+                        <i class="fas fa-shield-alt fa-lg"></i>
+                    </div>
+                    <span id="label_pct_arl" style="font-size: 0.8rem; font-weight: 800; color: #3b82f6; background: #dbeafe; padding: 4px 10px; border-radius: 20px;">Nivel I</span>
+                </div>
+                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Seguros ARL</h4>
+                <div id="costo_side_arl" style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 10px 0;">$ 0</div>
+                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Protección contra riesgos profesionales. El porcentaje varía según la peligrosidad del cargo.</p>
+            </div>
+
+            <div class="cost-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #10b981; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <div style="background: #dcfce7; padding: 10px; border-radius: 12px; color: #10b981;">
+                        <i class="fas fa-users fa-lg"></i>
+                    </div>
+                    <span style="font-size: 0.8rem; font-weight: 800; color: #10b981; background: #dcfce7; padding: 4px 10px; border-radius: 20px;">4.0%</span>
+                </div>
+                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Caja de Compensación</h4>
+                <div id="costo_side_caja" style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 10px 0;">$ 0</div>
+                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Financia subsidios de vivienda, educación y recreación para el empleado y su familia.</p>
+            </div>
+
+            <div class="cost-card highlight-card" style="background: #f8fafc; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #f59e0b; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <div style="background: #fef3c7; padding: 10px; border-radius: 12px; color: #f59e0b;">
+                        <i class="fas fa-piggy-bank fa-lg"></i>
+                    </div>
+                    <span style="font-size: 0.8rem; font-weight: 800; color: #f59e0b; background: #fef3c7; padding: 4px 10px; border-radius: 20px;">21.83%</span>
+                </div>
+                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Ahorro de Prestaciones</h4>
+                <div id="costo_side_prov" style="font-size: 1.6rem; font-weight: 800; color: #d97706; margin: 10px 0;">$ 0</div>
+                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Reserva mensual para pagar Primas (8.33%), Cesantías (8.33%), Intereses (1%) y Vacaciones (4.17%).</p>
+            </div>
+
+        </div>
+
+        <div class="total-neto-container" style="background: linear-gradient(135deg, #0f172a 0%, #334155 100%) !important; margin-top: 40px; border-radius: 24px; padding: 35px; display: flex; align-items: center; justify-content: space-between; color: white;">
+            <div style="max-width: 60%;">
+                <span style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; opacity: 0.7; font-weight: 700;">Gasto Operativo Mensual</span>
+                <h2 style="margin: 10px 0; font-size: 1.1rem; font-weight: 400; line-height: 1.4;">Este es el presupuesto real que la empresa debe disponer para mantener el contrato activo y legal.</h2>
+            </div>
+            <div style="text-align: right;">
+                <div id="costo_side_total" style="font-size: 2.8rem; font-weight: 900; letter-spacing: -1px;">$ 0</div>
+                <span style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 8px; font-size: 0.8rem;">COSTO EMPRESA ESTIMADO</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+      <section id="view-seguridad" class="view-section">
+    <div class="card" style="border: none; background: transparent; box-shadow: none;">
+        <div class="card-title" style="font-size: 1.4rem; margin-bottom: 20px;">
+            <i class="fas fa-shield-alt" style="color: var(--primary);"></i> Protección Social Integral
+        </div>
+
+        <div class="arl-selector-container" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0,05); margin-bottom: 30px; border-left: 6px solid var(--primary);">
+            <label style="display: block; font-weight: 800; color: #1e293b; margin-bottom: 15px; font-size: 1rem;">
+                <i class="fas fa-industry"></i> ACTIVIDAD ECONÓMICA Y RIESGO
+            </label>
+            <select id="cfg_arl" onchange="actualizarTodo(); actualizarInfoARL();" class="modern-select" style="width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #e2e8f0; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                <option value="0.522">Clase I (0.522%) - Oficinas y Administrativos</option>
+                <option value="1.044">Clase II (1.044%) - Manufactura y Comercio</option>
+                <option value="2.436">Clase III (2.436%) - Procesos Industriales</option>
+                <option value="4.350">Clase IV (4.350%) - Transporte y Construcción</option>
+                <option value="6.960">Clase V (6.960%) - Minería y Alto Riesgo</option>
+            </select>
+        </div>
+
+        <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            
+            <div class="info-card-hover" style="background: white; padding: 20px; border-radius: 15px; border-bottom: 4px solid #ef4444; transition: transform 0.3s, box-shadow 0.3s;">
+                <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                    <div style="background: #fee2e2; width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                        <i class="fas fa-hospital-symbol" style="color: #ef4444; font-size: 1.2rem;"></i>
+                    </div>
+                    <h4 style="margin: 0; color: #1e293b; font-size: 1.1rem;">Salud (EPS)</h4>
+                </div>
+                <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5;">Aporte obligatorio para garantizar acceso a medicina general, especialistas y hospitalización. El trabajador aporta el <b>4%</b>.</p>
+                <div style="margin-top: 10px; font-size: 0.75rem; color: #ef4444; font-weight: 700;"><i class="fas fa-check-circle"></i> Cobertura en enfermedad general</div>
+            </div>
+
+            <div class="info-card-hover" style="background: white; padding: 20px; border-radius: 15px; border-bottom: 4px solid #f59e0b; transition: transform 0.3s, box-shadow 0.3s;">
+                <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                    <div style="background: #fef3c7; width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                        <i class="fas fa-piggy-bank" style="color: #f59e0b; font-size: 1.2rem;"></i>
+                    </div>
+                    <h4 style="margin: 0; color: #1e293b; font-size: 1.1rem;">Pensión</h4>
+                </div>
+                <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5;">Protección para el retiro, invalidez o sobrevivencia. Aporte conjunto: <b>12%</b> Empleador y <b>4%</b> Trabajador.</p>
+                <div style="margin-top: 10px; font-size: 0.75rem; color: #f59e0b; font-weight: 700;"><i class="fas fa-check-circle"></i> Ahorro para vejez digna</div>
+            </div>
+
+            <div id="arl_card_interactive" class="info-card-hover" style="background: #1e293b; color: white; padding: 20px; border-radius: 15px; grid-column: span 1; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                    <div id="arl_icon_bg" style="background: rgba(255,255,255,0.1); width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                        <i class="fas fa-hard-hat" id="arl_icon" style="color: #3b82f6; font-size: 1.2rem;"></i>
+                    </div>
+                    <h4 style="margin: 0; color: white; font-size: 1.1rem;">Cobertura ARL</h4>
+                </div>
+                <p id="arl_descripcion_dinamica" style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6; min-height: 60px;">
+                    Seleccione un nivel de riesgo para ver el detalle de protección laboral.
+                </p>
+                <div id="arl_tag" style="display: inline-block; margin-top: 15px; padding: 5px 12px; background: #3b82f6; border-radius: 20px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;">
+                    Riesgo Detectado
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="cfg_pen_e" value="12">
+    </div>
+</section>
+
+               <section id="view-empresa" class="view-section">
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-id-card"></i> Identidad Corporativa
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">
+            Configura la información oficial de tu empresa. Estos datos aparecerán en el encabezado y pie de página de los documentos PDF generados.
+        </p>
+
+        <h4 style="font-size: 0.85rem; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px;">
+            <i class="fas fa-balance-scale"></i> Datos Legales
+        </h4>
+        <div class="form-grid" style="margin-bottom: 30px;">
+            <div class="input-group">
+                <label><i class="fas fa-signature"></i> Razón Social</label>
+                <input type="text" id="conf_razon" placeholder="Ej: LaboralPro S.A.S.">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-fingerprint"></i> NIT / Identificación</label>
+                <input type="text" id="conf_nit" placeholder="900.000.000-1">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-map-marker-alt"></i> Ciudad / Oficina</label>
+                <input type="text" id="conf_ciudad" placeholder="Bogotá D.C.">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-user-tie"></i> Representante Legal</label>
+                <input type="text" id="conf_rep" placeholder="Nombre completo">
+            </div>
+        </div>
+
+        <h4 style="font-size: 0.85rem; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px;">
+            <i class="fas fa-image"></i> Contacto y Marca
+        </h4>
+        <div class="form-grid">
+            <div class="input-group">
+                <label><i class="fas fa-envelope"></i> Correo Electrónico</label>
+                <input type="email" id="conf_email" placeholder="rrhh@empresa.com">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-phone"></i> Teléfono / WhatsApp</label>
+                <input type="text" id="conf_tel" placeholder="+57 300 000 0000">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-globe"></i> Sitio Web</label>
+                <input type="text" id="conf_web" placeholder="www.tuempresa.com">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-link"></i> URL del Logo (PNG)</label>
+                <input type="text" id="conf_logo" placeholder="https://tuweb.com/logo.png">
+                <small style="font-size: 10px; color: var(--text-muted); display: block; margin-top: 4px;">Se recomienda fondo transparente.</small>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 15px; background: var(--primary-light); border-radius: 10px; display: flex; align-items: center; gap: 15px;">
+            <i class="fas fa-info-circle" style="color: var(--primary); font-size: 1.2rem;"></i>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-main);">
+                <strong>Sugerencia:</strong> Mantener esta información actualizada garantiza que los certificados y paz y salvos tengan validez legal y profesional.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+
+
+<section id="view-ley" class="view-section">
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-balance-scale"></i> Parámetros Legales Vigentes 2026
+        </div>
+        
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">
+            Configure los valores base establecidos por el Gobierno Nacional para el año fiscal 2026. Estos valores afectan directamente el cálculo de aportes, retenciones y topes prestacionales.
+        </p>
+
+        <h4 style="font-size: 0.85rem; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px;">
+            <i class="fas fa-coins"></i> Bases Salariales
+        </h4>
+        <div class="form-grid" style="margin-bottom: 30px;">
+            <div class="input-group">
+                <label><i class="fas fa-money-bill-wave"></i> Salario Mínimo (SMMLV)</label>
+                <input type="number" id="conf_smlv" value="1750905" oninput="actualizarTodo()">
+                <small class="help-text">Base mínima para cotización y pago salarial.</small>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-bus"></i> Auxilio de Transporte</label>
+                <input type="number" id="conf_aux" value="249095" oninput="actualizarTodo()">
+                <small class="help-text">Aplicable a salarios hasta 2 SMMLV.</small>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-calculator"></i> Valor UVT 2026</label>
+                <input type="number" id="conf_uvt" value="50893" oninput="actualizarTodo()">
+                <small class="help-text">Unidad de Valor Tributario para Retención.</small>
+            </div>
+        </div>
+
+        <h4 style="font-size: 0.85rem; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px;">
+            <i class="fas fa-clock"></i> Jornada y Aportes
+        </h4>
+        <div class="form-grid">
+            <div class="input-group">
+                <label><i class="fas fa-stopwatch"></i> Jornada Laboral (Horas)</label>
+                <select id="conf_jornada" onchange="actualizarTodo()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <option value="42">42 Horas Semanales (Ley 2101)</option>
+                    <option value="46">46 Horas Semanales</option>
+                    <option value="48">48 Horas Semanales</option>
+                </select>
+                <small class="help-text">Afecta el valor de la hora ordinaria.</small>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-percent"></i> Pensión Empleado</label>
+                <input type="text" value="4%" disabled style="background: #f8fafc;">
+                <small class="help-text">Deducción estándar de ley.</small>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-hospital"></i> Salud Empleado</label>
+                <input type="text" value="4%" disabled style="background: #f8fafc;">
+                <small class="help-text">Deducción estándar de ley.</small>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 15px; background: #fff7ed; border-radius: 10px; border-left: 4px solid #f97316; display: flex; align-items: center; gap: 12px;">
+            <i class="fas fa-info-circle" style="color: #f97316;"></i>
+            <p style="margin: 0; font-size: 0.8rem; color: #9a3412;">
+                <strong>Nota sobre Jornada:</strong> Según la Ley 2101 de 2021, para el año 
+                2026 la jornada máxima legal se proyecta en <strong>42 horas semanales</strong>.
+                 Esto incrementa automáticamente el valor de la hora ordinaria y las horas extra.
+            </p>
+        </div>
+    </div>
+</section>
+    </div>
+
+                    <div id="pdf-template">
+                        <div class="pdf-header">
+                            <div>
+                                <h1 id="p_empresa_header" style="font-size: 15px; margin: 0;">EMPRESA SAS</h1>
+                                <p id="p_nit_header" style="font-size: 10px; margin: 0;">NIT: 00000</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <h2 style="font-size: 12px; margin: 0; text-transform: uppercase;">Liquidación Definitiva de Contrato</h2>
+                                <p id="p_fecha_actual" style="font-size: 9px; margin: 0;"></p>
+                            </div>
+                        </div>
+
+                        <div class="pdf-section-title">Información del Trabajador</div>
+                        <table class="pdf-table">
+                            <tr><th>TRABAJADOR:</th><td id="pdf_nombre">--</td><th>CARGO:</th><td id="pdf_cargo">--</td></tr>
+                            <tr><th>IDENTIFICACIÓN:</th><td id="pdf_cc">--</td><th>TIPO CONTRATO:</th><td id="pdf_contrato">--</td></tr>
+                            <tr><th>FECHA INICIO:</th><td id="pdf_fi">--</td><th>FECHA FIN:</th><td id="pdf_ff">--</td></tr>
+                            <tr><th>DÍAS LABORADOS:</th><td id="pdf_dt" colspan="3" style="font-weight: 800;">--</td></tr>
+                        </table>
+
+                        <div class="pdf-section-title">Bases Salariales</div>
+                        <table class="pdf-table">
+                            <tr><th>SALARIO BÁSICO:</th><td id="pdf_sal">--</td><th>AUX. TRANSPORTE:</th><td id="pdf_auxt">--</td></tr>
+                            <tr><th>BASE PRESTACIONAL:</th><td id="pdf_base_p" colspan="3" style="font-weight: 800;">--</td></tr>
+                        </table>
+
+                        <div class="pdf-section-title">1. Prestaciones Sociales</div>
+                        <table class="pdf-table">
+                            <thead><tr><th>Concepto</th><th>Base de Cálculo</th><th>Días</th><th>Total</th></tr></thead>
+                            <tbody id="pdf_tabla_pres"></tbody>
+                        </table>
+
+                        <div class="pdf-section-title">2. Última Nómina y Recargos</div>
+                        <table class="pdf-table">
+                            <thead><tr><th>Descripción</th><th>Valor Devengado</th></tr></thead>
+                            <tbody id="pdf_tabla_nom"></tbody>
+                        </table>
+
+                        <div class="pdf-section-title">3. Deducciones (Seguridad Social y Otros)</div>
+                        <table class="pdf-table">
+                            <thead><tr><th>Concepto</th><th>Porcentaje / Detalle</th><th>Valor Descontado</th></tr></thead>
+                            <tbody id="pdf_tabla_ded"></tbody>
+                        </table>
+
+                        <div class="pdf-total-box">
+                            <p style="font-size: 11px; margin: 0;"><strong>NETO PAGADERO:</strong></p>
+                            <h2 id="pdf_gran_total" style="font-size: 18px; margin: 5px 0;">$ 0</h2>
+                            <p id="pdf_letras" style="font-size: 9px; font-style: italic;"></p>
+                            <p id="pdf_total_letras" style="font-style: italic; font-size: 9px; margin-top: 5px; color: #475569;"></p>
+                        </div>
+
+                        <div id="pdf_pazysalvo" style="display: none; margin-top: 20px; font-size: 9px; text-align: justify; border: 1px dashed #ccc; padding: 10px;">
+                            <strong>ACTA DE PAZ Y SALVO Y TRANSACCIÓN:</strong> 
+                            El suscrito trabajador declara que con el pago de la suma aquí consignada, se entiende transada cualquier diferencia relativa al contrato de trabajo extinguido. 
+    La empresa queda a paz y salvo por concepto de salarios, prestaciones sociales (Primas, Cesantías, Intereses), vacaciones, indemnizaciones y demás emolumentos. 
+    Las partes declaran que la presente liquidación surte efectos de transacción voluntaria sobre derechos inciertos y discutibles, y no se reservan ninguna reclamación posterior.
+                        </div>
+
+                        <div class="pdf-footer">
+                            <div class="signature-box">
+                                <p id="pdf_firma_emp" style="font-weight: 800; font-size: 10px;"></p>
+                                <small>POR EL EMPLEADOR</small>
+                            </div>
+                            <div class="signature-box">
+                                <p id="pdf_firma_trab" style="font-weight: 800; font-size: 10px;"></p>
+                                <small>EL TRABAJADOR / C.C. <span id="pdf_cc_firma"></span></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+    <!--menu de navegacion vercion celular -->
+
+<nav class="mobile-nav">
+    <a href="#" class="nav-item active" data-target="view-liquidador">
+        <i class="fas fa-calculator"></i>
+        <span>Cálculo</span>
+    </a>
+
+    <a href="#" class="nav-item" data-target="view-costos-jefe">
+        <i class="fas fa-chart-pie"></i>
+        <span>Costos</span>
+    </a>
+    <a href="#" class="nav-item" data-target="view-seguridad">
+        <i class="fas fa-user-shield"></i>
+        <span>Seguridad</span>
+    </a>
+    <a href="#" class="nav-item" data-target="view-empresa">
+        <i class="fas fa-building"></i>
+        <span>Empresa</span>
+    </a>
+    <a href="#" class="nav-item" data-target="view-ley">
+        <i class="fas fa-gavel"></i>
+        <span>Leyes</span>
+    </a>
+</nav>
+
+
+<div id="modalCompartir" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-magic"></i> ¡Liquidación Lista!</h3>
+            <button class="close-modal" onclick="cerrarModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Selecciona cómo deseas procesar el documento:</p>
+            <div class="modal-buttons">
+                <button class="btn-modal btn-pdf" onclick="descargarPDF()">
+                    <i class="fas fa-file-pdf"></i> Descargar PDF
+                </button>
+                <button class="btn-modal btn-whatsapp" onclick="compartirWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                </button>
+                <button class="btn-modal btn-email" onclick="compartirEmail()">
+                    <i class="fas fa-envelope"></i> Enviar por Correo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <script src="script.js"></script>
+
 </body>
+
 </html>
