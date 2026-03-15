@@ -477,3 +477,116 @@ function confirmarNuevaLiquidacion() {
 
 // Ejecutar al cargar la página
 document.addEventListener('DOMContentLoaded', actualizarInfoARL);
+
+/* loging pages */
+
+/* =============================================
+   LÓGICA DE ACCESO - LABORALPRO
+   ============================================= */
+
+// Definimos los accesos permitidos (Usuario: Contraseña)
+const usuariosPermitidos = {
+    "miguel": "ma2356",
+    "contabilidad": "nomina123",
+    "gerencia": "gerenciapro2026",
+    "invitado": "invitado2026"
+};
+
+function validarAcceso() {
+    // Referencias a elementos
+    const userInput = document.getElementById('user');
+    const passInput = document.getElementById('pass');
+    const btnMain = document.querySelector('.btn-login-main');
+    const errorMsg = document.getElementById('login-error');
+    const card = document.querySelector('.login-card');
+
+    // Limpiar espacios y convertir usuario a minúscula para evitar errores
+    const user = userInput.value.trim().toLowerCase();
+    const pass = passInput.value.trim();
+
+    // Verificación
+    if (usuariosPermitidos.hasOwnProperty(user) && usuariosPermitidos[user] === pass) {
+        
+        // --- EFECTO DE ÉXITO ANTES DE ENTRAR ---
+        // Deshabilitar campos y cambiar botón a verde
+        userInput.disabled = true;
+        passInput.disabled = true;
+        btnMain.disabled = true;
+        btnMain.innerHTML = '<i class="fas fa-check-circle"></i> Acceso Verificado';
+        btnMain.style.background = "#22c55e"; // Color Verde Éxito
+        btnMain.style.color = "#ffffff";
+        errorMsg.style.display = "none"; // Ocultar error si existía
+
+        // Ocultar login con transición suave (0.8s después del éxito)
+        setTimeout(() => {
+            const overlay = document.getElementById('login-overlay');
+            overlay.style.opacity = "0";
+            overlay.style.visibility = "hidden"; // Ocultar completamente
+
+            // Después de que la animación termine, quitar display totalmente
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 500); // 0.5s es la duración de la transición CSS
+        }, 800);
+
+    } else {
+        // --- EFECTO DE ERROR ---
+        // Mostrar error, reiniciar inputs y aplicar vibración
+        errorMsg.style.display = "block";
+        passInput.value = ""; // Limpiar contraseña por seguridad
+        
+        card.style.animation = "shake-pro 0.4s cubic-bezier(.36,.07,.19,.97) both";
+        
+        // Limpiar animación para que se pueda repetir
+        setTimeout(() => { card.style.animation = ""; }, 400);
+        passInput.focus(); // Volver a enfocar la contraseña
+    }
+}
+
+/* --- FUNCIONALIDADES EXTRAS PARA USUARIO PRO --- */
+
+// 1. Mostrar/Ocultar Contraseña
+function togglePasswordVisibility() {
+    const passInput = document.getElementById('pass');
+    const eyeIcon = document.querySelector('.btn-toggle-pass i');
+    
+    if (passInput.type === 'password') {
+        passInput.type = 'text';
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+    } else {
+        passInput.type = 'password';
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+    }
+}
+
+// 2. Detectar tecla Enter para iniciar sesión más rápido
+document.addEventListener('DOMContentLoaded', () => {
+    // Al pulsar Enter en el campo de contraseña
+    document.getElementById('pass').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') { validarAcceso(); }
+    });
+    // Al pulsar Enter en el campo de usuario (pasa a contraseña)
+    document.getElementById('user').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') { document.getElementById('pass').focus(); }
+    });
+});
+
+
+function mostrarSoporte() {
+    const submenu = document.getElementById('submenu-soporte');
+    const link = document.getElementById('forgot-link');
+    
+    if (submenu.style.display === "block") {
+        submenu.style.display = "none";
+        link.innerText = "¿Olvidó sus credenciales?";
+    } else {
+        submenu.style.display = "block";
+        link.innerText = "Cerrar ayuda";
+        // Scroll automático suave hacia abajo para que se vea el submenú en móviles
+        setTimeout(() => {
+            submenu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    }
+}

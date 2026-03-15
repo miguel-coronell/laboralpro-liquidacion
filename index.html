@@ -15,6 +15,72 @@
 </head>
 <body>
 
+<!-- loging pages-->
+<div id="login-overlay">
+    <div class="login-card-wrapper">
+        <div class="login-card">
+            
+            <div class="login-logo-header">
+                <div class="logo-icon-container">
+                    <i class="fas fa-hand-holding-dollar"></i>
+                </div>
+                <h2>Laboral<span>Pro</span></h2>
+                <div class="login-badge">Portal Prestacional</div>
+            </div>
+
+            <div class="login-welcome-text">
+                <h3>Bienvenido al Sistema</h3>
+                <p>Inicie sesión para gestionar liquidaciones prestacionales bajo el marco legal vigente de Colombia 2026.</p>
+            </div>
+            
+            <div class="login-form">
+                <div class="input-field-group">
+                    <label for="user"><i class="fas fa-user-shield"></i> Nombre de Usuario</label>
+                    <input type="text" id="user" placeholder="Ej: administrador_pro" autocomplete="username">
+                </div>
+
+                <div class="input-field-group">
+                    <label for="pass"><i class="fas fa-key"></i> Contraseña de Seguridad</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
+                        <button type="button" class="btn-toggle-pass" onclick="togglePasswordVisibility()"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+
+                <div class="login-action-buttons">
+    <button type="button" onclick="validarAcceso()" class="btn-login-main">
+        <span>Verificar y Acceder</span>
+        <i class="fas fa-arrow-right"></i>
+    </button>
+
+    
+    
+    <div class="login-secondary-links">
+        <a href="javascript:void(0)" onclick="mostrarSoporte()" class="link-forgot-pass" id="forgot-link">
+            ¿Olvidó sus credenciales?
+        </a>
+        
+        <div id="submenu-soporte" class="submenu-soporte">
+            <p>Para recuperar el acceso, contacte al administrador:</p>
+            <a href="mailto:miguelcoronell94@gmail.com?subject=Soporte LaboralPro - Recuperación de Acceso" class="btn-support-mail">
+                <i class="fas fa-envelope"></i> Solicitar Soporte Técnico
+            </a>
+        </div>
+    </div>
+</div>
+                
+                <div id="login-error" class="error-toast-notification">
+                    <i class="fas fa-exclamation-triangle"></i> Credenciales inválidas. Por favor intente de nuevo.
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+
     <div class="app-container">
         <aside class="sidebar">
 

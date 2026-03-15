@@ -1359,3 +1359,254 @@
         padding: 20px;
     }
 }
+
+
+
+/* estilos para inicio de pagina */
+
+/* =============================================
+   ESTILOS PREMIUM PARA EL LOGIN - LABORALPRO
+   ============================================= */
+
+/* Contenedor Overlay con Glassmorphism */
+#login-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* Gradiente sutil y desenfoque */
+    background: radial-gradient(circle at top right, #eff6ff, #f8fafc), rgba(255,255,255,0.85);
+    z-index: 10000; /* Asegurar que esté por encima de todo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto; /* Activar scroll si es necesario */
+    padding: 30px;
+    box-sizing: border-box;
+    backdrop-filter: blur(8px); /* Efecto de fondo desenfocado */
+    transition: opacity 0.5s, visibility 0.5s; /* Transición suave de salida */
+}
+
+/* Tarjeta Elevada y Limpia */
+.login-card-wrapper {
+    width: 100%;
+    max-width: 440px;
+}
+
+.login-card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 50px 45px;
+    box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.08); /* Sombra difusa azulada */
+    border: 1px solid #e2eefc; /* Borde sutil */
+    text-align: center;
+}
+
+/* Logo e Icono con Fondo Suave */
+.logo-icon-container {
+    width: 70px; height: 70px;
+    background: #eff6ff;
+    border-radius: 20px;
+    display: flex;
+    align-items: center; justify-content: center;
+    margin: 0 auto 15px;
+    color: #3b82f6;
+    font-size: 2.2rem;
+    transform: rotate(-10deg);
+}
+
+.login-card h2 { color: #1e293b; font-size: 1.8rem; margin: 0; font-weight: 800; }
+.login-card h2 span { color: #3b82f6; font-weight: 900; }
+
+.login-badge {
+    display: inline-block;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 50px;
+    margin-top: 10px;
+}
+
+/* Textos de Bienvenida */
+.login-welcome-text { margin: 30px 0; }
+.login-welcome-text h3 { color: #1e293b; font-size: 1.3rem; margin-bottom: 8px; font-weight: 800; }
+.login-welcome-text p { color: #64748b; font-size: 0.95rem; line-height: 1.6; }
+
+/* Estilos Pro para Inputs */
+.input-field-group { margin-bottom: 24px; text-align: left; }
+.input-field-group label { display: block; font-size: 0.85rem; font-weight: 700; color: #475569; margin-bottom: 8px; }
+
+.input-field-group input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #f1f5f9;
+    border-radius: 14px;
+    background: #f8fafc;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1rem;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Interacción Focus de Inputs */
+.input-field-group input:focus {
+    border-color: #3b82f6;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+/* Contenedor de Contraseña con Botón de Ojo */
+.password-input-wrapper { position: relative; }
+.password-input-wrapper input { padding-right: 50px; }
+.btn-toggle-pass {
+    position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: #94a3b8;
+    cursor: pointer; font-size: 1.1rem; padding: 0;
+}
+.btn-toggle-pass:hover { color: #3b82f6; }
+
+/* Botón Principal con Hover Dinámico */
+.btn-login-main {
+    width: 100%;
+    padding: 16px;
+    background: #1e293b; /* Pizarra oscuro serio */
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover: Pasa a Azul Pro */
+.btn-login-main:hover {
+    background: #3b82f6;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(59, 130, 246, 0.2);
+}
+
+.btn-login-main:hover i { transform: translateX(6px); transition: 0.3s; }
+
+/* Links secundarios */
+.login-secondary-links { margin-top: 22px; text-align: center; }
+.link-forgot-pass { font-size: 0.85rem; color: #94a3b8; text-decoration: none; transition: 0.3s; }
+.link-forgot-pass:hover { color: #3b82f6; }
+
+/* Toast de Error */
+.error-toast-notification {
+    display: none;
+    background: #fef2f2;
+    color: #ef4444;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    margin-top: 25px;
+    border: 1px solid #fee2e2;
+    font-weight: 600;
+}
+
+/* =============================================
+   RESPONSIVE PARA CELULARES - LOGIN
+   ============================================= */
+@media (max-width: 480px) {
+    #login-overlay { padding: 20px; } /* Más aire alrededor en móvil */
+
+    .login-card {
+        padding: 40px 25px; /* Menos padding interno en móvil */
+        border-radius: 20px;
+    }
+
+    .logo-icon-container { width: 60px; height: 60px; font-size: 1.8rem; }
+    .login-card h2 { font-size: 1.6rem; }
+
+    .login-welcome-text h3 { font-size: 1.2rem; }
+    .login-welcome-text p { font-size: 0.9rem; line-height: 1.5; }
+
+    /* Inputs cómodos para pulgares grandes */
+    .input-field-group input { padding: 13px 15px; font-size: 16px; /* Previene Zoom automático iOS */ }
+    .btn-login-main { padding: 15px; font-size: 0.95rem; }
+}
+
+/* Ajuste Vertical para Teléfonos pequeños */
+@media (max-height: 600px) {
+    .login-card { padding: 25px 25px 20px 25px; }
+    .logo-icon-container { display: none; } /* Ocultar para ganar espacio vertical */
+    .login-welcome-text { margin: 15px 0; }
+}
+
+/* Animación de Vibración de Error */
+@keyframes shake-pro {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+    20%, 40%, 60%, 80% { transform: translateX(6px); }
+}
+
+/* Botón de GitHub */
+.btn-github {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 12px;
+    background: #24292e; /* Color oficial de GitHub */
+    color: white;
+    text-decoration: none;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-github:hover {
+    background: #444d56;
+    transform: translateY(-2px);
+}
+
+/* Submenú de Soporte */
+.submenu-soporte {
+    display: none; /* Se activa con JS */
+    margin-top: 15px;
+    padding: 15px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    border: 1px dashed #cbd5e1;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.submenu-soporte p {
+    font-size: 0.8rem !important;
+    color: #475569 !important;
+    margin-bottom: 10px !important;
+}
+
+.btn-support-mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #3b82f6;
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.btn-support-mail:hover {
+    background: #2563eb;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
