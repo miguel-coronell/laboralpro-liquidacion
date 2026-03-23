@@ -186,6 +186,7 @@
             <div class="content-area">
                 
                 <section id="view-liquidador" class="view-section active">
+
                     <div class="card">
                         <div class="card-title"><i class="fas fa-user-circle"></i> Información del Empleado</div>
                         <div class="form-grid">
@@ -245,6 +246,7 @@
 
 
 
+
     <div class="checklist-container">
 
                        <div class="guia-liquidacion">
@@ -291,9 +293,35 @@
     </label>
     
 </div>
+<div id="sec_he" style="display:none; padding: 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px;">
 
+<div class="form-grid">
+    <div class="input-group">
+        <label><i class="fas fa-sun"></i> H. Extra Diurna (1.25)</label>
+        <input type="number" id="h_hed" placeholder="0" oninput="actualizarTodo()">
+        <small class="unit-value">Valor: <span id="unit_hed">$ 0</span></small>
+    </div>
 
+    <div class="input-group">
+        <label><i class="fas fa-moon"></i> H. Extra Nocturna (1.75)</label>
+        <input type="number" id="h_hen" placeholder="0" oninput="actualizarTodo()">
+        <small class="unit-value">Valor: <span id="unit_hen">$ 0</span></small>
+    </div>
 
+    <div class="input-group">
+        <label><i class="fas fa-cloud-moon"></i> Recargo Nocturno (0.35)</label>
+        <input type="number" id="h_rn" placeholder="0" oninput="actualizarTodo()">
+        <small class="unit-value">Valor: <span id="unit_rn">$ 0</span></small>
+    </div>
+
+    <div class="input-group">
+        <label><i class="fas fa-calendar-day"></i> Recargo Dom/Fes (0.75)</label>
+        <input type="number" id="h_df" placeholder="0" oninput="actualizarTodo()">
+        <small class="unit-value">Valor: <span id="unit_df">$ 0</span></small>
+    </div>
+</div>
+</div>
+<!--
                         <div id="sec_he" style="display:none; padding: 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px;">
                             <div class="form-grid">
                                 <div class="input-group"><label>Recargos Nocturnos (Cant. de Hrs)</label><input type="number" id="h_rn" value="0" oninput="actualizarTodo()"></div>
@@ -302,6 +330,8 @@
                             <div class="input-group"><label>Horas Extra Nocturnas (Cant.)</label><input type="number" id="h_hen" value="0" oninput="actualizarTodo()"></div>
                             </div>
                         </div>
+ -->
+
 
                         <div id="sec_indem" style="display:none; padding: 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 20px;">
                             <div class="input-group" style="max-width: 300px;"><label>Días a Indemnizar</label><input type="number" id="dias_indem" value="0" oninput="actualizarTodo()"></div>
@@ -415,65 +445,76 @@
     <span>GENERAR LIQUIDACIÓN Y PAZ Y SALVO</span>
 </button>       
 
-                </section>
+ </section>
 
 <div id="view-costos-jefe" class="view-section" style="display:none;">
     <div class="card" style="border: none; background: transparent; box-shadow: none;">
         <div class="card-title" style="font-size: 1.5rem; margin-bottom: 10px;">
-            <i class="fas fa-chart-line" style="color: #3b82f6;"></i> Proyección de Costo Empresa
+            <i class="fas fa-chart-line" style="color: #3b82f6;"></i> Proyección de Costo Empresa (Vista Empleador)
         </div>
         <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 30px;">
-            Este análisis desglosa la inversión real. Recuerde que el costo de un empleado en Colombia es aproximadamente un <b>35% - 50%</b> adicional a su salario base debido a los siguientes factores:
+            Análisis detallado de la inversión real mensual. Incluye aportes patronales, provisiones de ley y parafiscales proyectados para 2026.
         </p>
+
+        <div class="info-banner-colombia" style="margin-bottom: 25px; background: #f0f9ff; border: 1px solid #bae6fd;">
+            <div class="banner-icon"><i class="fas fa-percentage" style="color: #0369a1;"></i></div>
+            <div class="banner-content">
+                <h4 style="color: #0369a1;">Beneficio Tributario (Art. 114-1 E.T.)</h4>
+                <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                    <span style="font-size: 0.85rem;">¿La empresa está exonerada de aportes a Salud, SENA e ICBF?</span>
+                    <input type="checkbox" id="chk_exonerado" onchange="actualizarTodo()" checked>
+                    <small>(Aplica para empleados que ganen menos de 10 SMMLV)</small>
+                </div>
+            </div>
+        </div>
         
         <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
             
-            <div class="cost-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #6366f1; transition: all 0.3s ease;">
+            <div class="cost-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #6366f1;">
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
                     <div style="background: #e0e7ff; padding: 10px; border-radius: 12px; color: #6366f1;">
-                        <i class="fas fa-hand-holding-heart fa-lg"></i>
-                    </div>
-                    <span style="font-size: 0.8rem; font-weight: 800; color: #6366f1; background: #e0e7ff; padding: 4px 10px; border-radius: 20px;">12.0%</span>
-                </div>
-                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Pensión Patrono</h4>
-                <div id="costo_side_pens" style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 10px 0;">$ 0</div>
-                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Aporte a fondos de jubilación (Colpensiones o Fondos Privados) para asegurar el retiro del trabajador.</p>
-            </div>
-
-            <div class="cost-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #3b82f6; transition: all 0.3s ease;">
-                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
-                    <div style="background: #dbeafe; padding: 10px; border-radius: 12px; color: #3b82f6;">
                         <i class="fas fa-shield-alt fa-lg"></i>
                     </div>
-                    <span id="label_pct_arl" style="font-size: 0.8rem; font-weight: 800; color: #3b82f6; background: #dbeafe; padding: 4px 10px; border-radius: 20px;">Nivel I</span>
+                    <span id="label_pct_ss_patron" style="font-size: 0.8rem; font-weight: 800; color: #6366f1; background: #e0e7ff; padding: 4px 10px; border-radius: 20px;">12.0%</span>
                 </div>
-                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Seguros ARL</h4>
-                <div id="costo_side_arl" style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 10px 0;">$ 0</div>
-                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Protección contra riesgos profesionales. El porcentaje varía según la peligrosidad del cargo.</p>
+                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Seguridad Social (Patrón)</h4>
+                <div id="costo_side_ss_patronal" style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 10px 0;">$ 0</div>
+                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Pensión (12%) y Salud (8.5% si no hay exoneración).</p>
             </div>
 
-            <div class="cost-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #10b981; transition: all 0.3s ease;">
+            <div class="cost-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #10b981;">
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
                     <div style="background: #dcfce7; padding: 10px; border-radius: 12px; color: #10b981;">
                         <i class="fas fa-users fa-lg"></i>
                     </div>
-                    <span style="font-size: 0.8rem; font-weight: 800; color: #10b981; background: #dcfce7; padding: 4px 10px; border-radius: 20px;">4.0%</span>
+                    <span id="label_pct_parafiscales" style="font-size: 0.8rem; font-weight: 800; color: #10b981; background: #dcfce7; padding: 4px 10px; border-radius: 20px;">4.0%</span>
                 </div>
-                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Caja de Compensación</h4>
-                <div id="costo_side_caja" style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 10px 0;">$ 0</div>
-                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Financia subsidios de vivienda, educación y recreación para el empleado y su familia.</p>
+                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Aportes Parafiscales</h4>
+                <div id="costo_side_parafiscales" style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 10px 0;">$ 0</div>
+                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">CCF (4%). Incluye SENA (2%) e ICBF (3%) si no aplica exoneración.</p>
             </div>
 
-            <div class="cost-card highlight-card" style="background: #f8fafc; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #f59e0b; transition: all 0.3s ease;">
+            <div class="cost-card highlight-card" style="background: #f8fafc; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #f59e0b;">
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
                     <div style="background: #fef3c7; padding: 10px; border-radius: 12px; color: #f59e0b;">
                         <i class="fas fa-piggy-bank fa-lg"></i>
                     </div>
                     <span style="font-size: 0.8rem; font-weight: 800; color: #f59e0b; background: #fef3c7; padding: 4px 10px; border-radius: 20px;">21.83%</span>
                 </div>
-                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Ahorro de Prestaciones</h4>
+                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Provisiones Mensuales</h4>
                 <div id="costo_side_prov" style="font-size: 1.6rem; font-weight: 800; color: #d97706; margin: 10px 0;">$ 0</div>
-                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Reserva mensual para pagar Primas (8.33%), Cesantías (8.33%), Intereses (1%) y Vacaciones (4.17%).</p>
+                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Reserva para Prima, Cesantías, Intereses y Vacaciones.</p>
+            </div>
+
+            <div class="cost-card" style="background: linear-gradient(to bottom right, #ffffff, #f1f5f9); padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #94a3b8;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <div style="background: #f1f5f9; padding: 10px; border-radius: 12px; color: #475569;">
+                        <i class="fas fa-divide fa-lg"></i>
+                    </div>
+                </div>
+                <h4 style="margin: 0; color: #1e293b; font-size: 1rem;">Factor de Multiplicación</h4>
+                <div id="costo_factor_real" style="font-size: 1.6rem; font-weight: 800; color: #475569; margin: 10px 0;">1.XX</div>
+                <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Por cada $1 de salario, la empresa paga realmente este valor.</p>
             </div>
 
         </div>
@@ -481,7 +522,7 @@
         <div class="total-neto-container" style="background: linear-gradient(135deg, #0f172a 0%, #334155 100%) !important; margin-top: 40px; border-radius: 24px; padding: 35px; display: flex; align-items: center; justify-content: space-between; color: white;">
             <div style="max-width: 60%;">
                 <span style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; opacity: 0.7; font-weight: 700;">Gasto Operativo Mensual</span>
-                <h2 style="margin: 10px 0; font-size: 1.1rem; font-weight: 400; line-height: 1.4;">Este es el presupuesto real que la empresa debe disponer para mantener el contrato activo y legal.</h2>
+                <h2 style="margin: 10px 0; font-size: 1.1rem; font-weight: 400; line-height: 1.4;">Costo total para mantener el contrato activo bajo ley colombiana.</h2>
             </div>
             <div style="text-align: right;">
                 <div id="costo_side_total" style="font-size: 2.8rem; font-weight: 900; letter-spacing: -1px;">$ 0</div>
@@ -492,66 +533,103 @@
 </div>
 
 
-      <section id="view-seguridad" class="view-section">
+     <section id="view-seguridad" class="view-section">
     <div class="card" style="border: none; background: transparent; box-shadow: none;">
         <div class="card-title" style="font-size: 1.4rem; margin-bottom: 20px;">
-            <i class="fas fa-shield-alt" style="color: var(--primary);"></i> Protección Social Integral
+            <i class="fas fa-shield-alt" style="color: var(--primary);"></i> Protección Social Integral 2026
         </div>
 
-        <div class="arl-selector-container" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0,05); margin-bottom: 30px; border-left: 6px solid var(--primary);">
-            <label style="display: block; font-weight: 800; color: #1e293b; margin-bottom: 15px; font-size: 1rem;">
-                <i class="fas fa-industry"></i> ACTIVIDAD ECONÓMICA Y RIESGO
-            </label>
-            <select id="cfg_arl" onchange="actualizarTodo(); actualizarInfoARL();" class="modern-select" style="width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #e2e8f0; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                <option value="0.522">Clase I (0.522%) - Oficinas y Administrativos</option>
-                <option value="1.044">Clase II (1.044%) - Manufactura y Comercio</option>
-                <option value="2.436">Clase III (2.436%) - Procesos Industriales</option>
-                <option value="4.350">Clase IV (4.350%) - Transporte y Construcción</option>
-                <option value="6.960">Clase V (6.960%) - Minería y Alto Riesgo</option>
+        <div class="arl-selector-container" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 30px; border-left: 6px solid var(--primary);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <label style="font-weight: 800; color: #1e293b; font-size: 1rem;">
+                    <i class="fas fa-industry"></i> CLASE DE RIESGO LABORAL (ARL)
+                </label>
+                <span style="font-size: 0.75rem; color: var(--primary); font-weight: 700; background: var(--primary-light); padding: 4px 12px; border-radius: 15px;">Aporte 100% Empleador</span>
+            </div>
+            <select id="cfg_arl" onchange="actualizarTodo(); actualizarInfoARL();" class="modern-select" style="width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #e2e8f0; font-weight: 600;">
+                <option value="0.522">Clase I (0.522%) - Administrativos / Oficinas</option>
+                <option value="1.044">Clase II (1.044%) - Ventas / Manufactura liviana</option>
+                <option value="2.436">Clase III (2.436%) - Procesos industriales / Construcción</option>
+                <option value="4.350">Clase IV (4.350%) - Transporte / Manejo de maquinaria</option>
+                <option value="6.960">Clase V (6.960%) - Minería / Bomberos / Alto Riesgo</option>
             </select>
         </div>
 
-        <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-            
-            <div class="info-card-hover" style="background: white; padding: 20px; border-radius: 15px; border-bottom: 4px solid #ef4444; transition: transform 0.3s, box-shadow 0.3s;">
-                <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                    <div style="background: #fee2e2; width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                        <i class="fas fa-hospital-symbol" style="color: #ef4444; font-size: 1.2rem;"></i>
-                    </div>
-                    <h4 style="margin: 0; color: #1e293b; font-size: 1.1rem;">Salud (EPS)</h4>
-                </div>
-                <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5;">Aporte obligatorio para garantizar acceso a medicina general, especialistas y hospitalización. El trabajador aporta el <b>4%</b>.</p>
-                <div style="margin-top: 10px; font-size: 0.75rem; color: #ef4444; font-weight: 700;"><i class="fas fa-check-circle"></i> Cobertura en enfermedad general</div>
+      <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+    
+    <div class="info-card-hover" style="background: white; padding: 20px; border-radius: 15px; border-bottom: 4px solid #ef4444; position: relative;">
+        <div style="display: flex; align-items: center; margin-bottom: 12px;">
+            <div style="background: #fee2e2; width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                <i class="fas fa-hospital-symbol" style="color: #ef4444; font-size: 1.2rem;"></i>
             </div>
-
-            <div class="info-card-hover" style="background: white; padding: 20px; border-radius: 15px; border-bottom: 4px solid #f59e0b; transition: transform 0.3s, box-shadow 0.3s;">
-                <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                    <div style="background: #fef3c7; width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                        <i class="fas fa-piggy-bank" style="color: #f59e0b; font-size: 1.2rem;"></i>
-                    </div>
-                    <h4 style="margin: 0; color: #1e293b; font-size: 1.1rem;">Pensión</h4>
-                </div>
-                <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5;">Protección para el retiro, invalidez o sobrevivencia. Aporte conjunto: <b>12%</b> Empleador y <b>4%</b> Trabajador.</p>
-                <div style="margin-top: 10px; font-size: 0.75rem; color: #f59e0b; font-weight: 700;"><i class="fas fa-check-circle"></i> Ahorro para vejez digna</div>
-            </div>
-
-            <div id="arl_card_interactive" class="info-card-hover" style="background: #1e293b; color: white; padding: 20px; border-radius: 15px; grid-column: span 1; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                    <div id="arl_icon_bg" style="background: rgba(255,255,255,0.1); width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                        <i class="fas fa-hard-hat" id="arl_icon" style="color: #3b82f6; font-size: 1.2rem;"></i>
-                    </div>
-                    <h4 style="margin: 0; color: white; font-size: 1.1rem;">Cobertura ARL</h4>
-                </div>
-                <p id="arl_descripcion_dinamica" style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6; min-height: 60px;">
-                    Seleccione un nivel de riesgo para ver el detalle de protección laboral.
-                </p>
-                <div id="arl_tag" style="display: inline-block; margin-top: 15px; padding: 5px 12px; background: #3b82f6; border-radius: 20px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;">
-                    Riesgo Detectado
-                </div>
-            </div>
+            <h4 style="margin: 0; color: #1e293b; font-size: 1.1rem;">Salud (EPS)</h4>
         </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #64748b;">
+            <span>Aporte Empleado (4%):</span> 
+            <strong id="val_salud_emp" style="color: #1e293b;">$ 0</strong> </div>
+        <div id="info_salud_patron" style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #64748b; margin-top: 5px;">
+            <span>Aporte Patrón (8.5%):</span> 
+            <strong id="val_salud_patron" style="color: #ef4444;">$ 0</strong> </div>
+        <p style="font-size: 0.7rem; color: #94a3b8; margin-top: 10px; font-style: italic;">* Sujeto a exoneración Ley 1607.</p>
+    </div>
 
-        <input type="hidden" id="cfg_pen_e" value="12">
+    <div class="info-card-hover" style="background: white; padding: 20px; border-radius: 15px; border-bottom: 4px solid #f59e0b;">
+        <div style="display: flex; align-items: center; margin-bottom: 12px;">
+            <div style="background: #fef3c7; width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                <i class="fas fa-piggy-bank" style="color: #f59e0b; font-size: 1.2rem;"></i>
+            </div>
+            <h4 style="margin: 0; color: #1e293b; font-size: 1.1rem;">Pensión y FSP</h4>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #64748b;">
+            <span>Aporte Empleado (4%):</span> 
+            <strong id="val_pension_emp" style="color: #1e293b;">$ 0</strong> </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #64748b; margin-top: 5px;">
+            <span>Aporte Patrón (12%):</span> 
+            <strong id="val_pension_patron" style="color: #1e293b;">$ 0</strong> </div>
+        <div id="row_fsp" style="display: none; justify-content: space-between; font-size: 0.85rem; color: #d97706; margin-top: 5px; font-weight: 700;">
+            <span>FSP (Solidaridad):</span> 
+            <span id="display_fsp">$ 0</span> </div>
+    </div>
+
+<div id="arl_card_interactive" style="background: white; padding: 20px; border-radius: 15px; border-top: 5px solid #3b82f6; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+        <div style="background: #f1f5f9; width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+            <i id="arl_icon" class="fas fa-hard-hat" style="color: #3b82f6; font-size: 1.2rem;"></i>
+        </div>
+        <h4 style="margin: 0; color: #1e293b; font-size: 1.1rem;">Costo ARL</h4>
+    </div>
+
+    
+
+    <div style="font-size: 1.5rem; font-weight: 800; margin-bottom: 5px; color: #1e293b;" id="val_arl_dinero">$ 0</div> 
+    <p id="display_pct_arl" style="font-size: 0.85rem; color: #3b82f6; font-weight: 700;">0.522%</p>
+    <p id="arl_desc" style="font-size: 0.75rem; color: #64748b; margin-top: 10px; line-height: 1.4;"></p>
+
+
+<span id="arl_tag" style="font-size: 0.7rem; font-weight: 700; color: white; background: #3b82f6; padding: 4px 10px; border-radius: 8px; text-transform: uppercase;">
+            Nivel I - Administrativo
+        </span>
+
+</div>
+
+
+
+
+
+<!-- 
+    <div id="arl_card_interactive" style="background: #1e293b; color: rgb(16, 26, 64); padding: 20px; border-radius: 15px; transition: all 0.3s;">
+        <div style="display: flex; align-items: center; margin-bottom: 12px;">
+            <div style="background: rgba(255,255,255,0.1); width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                <i class="fas fa-hard-hat" style="color: #3b82f6; font-size: 1.2rem;"></i>
+            </div>
+            <h4 style="margin: 0; color: rgb(25, 17, 67); font-size: 1.1rem;">Costo ARL</h4>
+        </div>
+        <div style="font-size: 1.5rem; font-weight: 800; margin-bottom: 5px;" id="val_arl_dinero">$ 0</div> <p id="display_pct_arl" style="font-size: 0.85rem; color: #3b82f6; font-weight: 700;">0.522%</p>
+    </div>
+-->
+</div>
+
+
     </div>
 </section>
 
@@ -624,66 +702,54 @@
 <section id="view-ley" class="view-section">
     <div class="card">
         <div class="card-title">
-            <i class="fas fa-balance-scale"></i> Parámetros Legales Vigentes 2026
+            <i class="fas fa-balance-scale"></i> Parámetros de Control Legal (Vigencia 2026)
         </div>
         
         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">
-            Configure los valores base establecidos por el Gobierno Nacional para el año fiscal 2026. Estos valores afectan directamente el cálculo de aportes, retenciones y topes prestacionales.
+            Configure los valores base estipulados por el Gobierno Nacional. Estos datos alimentan los cálculos de seguridad social, topes de auxilio de transporte y retenciones.
         </p>
 
         <h4 style="font-size: 0.85rem; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px;">
-            <i class="fas fa-coins"></i> Bases Salariales
+            <i class="fas fa-coins"></i> Indicadores Económicos
         </h4>
         <div class="form-grid" style="margin-bottom: 30px;">
             <div class="input-group">
                 <label><i class="fas fa-money-bill-wave"></i> Salario Mínimo (SMMLV)</label>
                 <input type="number" id="conf_smlv" value="1750905" oninput="actualizarTodo()">
-                <small class="help-text">Base mínima para cotización y pago salarial.</small>
+                <small class="help-text">Base para aportes y sanciones.</small>
             </div>
             <div class="input-group">
                 <label><i class="fas fa-bus"></i> Auxilio de Transporte</label>
                 <input type="number" id="conf_aux" value="249095" oninput="actualizarTodo()">
-                <small class="help-text">Aplicable a salarios hasta 2 SMMLV.</small>
+                <small class="help-text">Obligatorio hasta 2 SMMLV.</small>
             </div>
             <div class="input-group">
                 <label><i class="fas fa-calculator"></i> Valor UVT 2026</label>
                 <input type="number" id="conf_uvt" value="50893" oninput="actualizarTodo()">
-                <small class="help-text">Unidad de Valor Tributario para Retención.</small>
+                <small class="help-text">Unidad para cálculo de retención en la fuente.</small>
             </div>
         </div>
 
         <h4 style="font-size: 0.85rem; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px;">
-            <i class="fas fa-clock"></i> Jornada y Aportes
+            <i class="fas fa-clock"></i> Jornada Laboral (Ley 2101)
         </h4>
-        <div class="form-grid">
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
             <div class="input-group">
-                <label><i class="fas fa-stopwatch"></i> Jornada Laboral (Horas)</label>
-                <select id="conf_jornada" onchange="actualizarTodo()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <option value="42">42 Horas Semanales (Ley 2101)</option>
-                    <option value="46">46 Horas Semanales</option>
-                    <option value="48">48 Horas Semanales</option>
+                <label><i class="fas fa-stopwatch"></i> Límite de Horas Semanales</label>
+                <select id="conf_jornada" onchange="actualizarTodo()" style="width: 100%; padding: 10px; border-radius: 8px; border: 2px solid var(--primary-light); font-weight: 700;">
+                    <option value="42">42 Horas (Vigente Julio 2026)</option>
+                    <option value="44">44 Horas (Transición 2025)</option>
+                    <option value="46">46 Horas (Histórico 2024)</option>
                 </select>
-                <small class="help-text">Afecta el valor de la hora ordinaria.</small>
+                <small class="help-text">Afecta directamente el costo de la hora extra.</small>
             </div>
-            <div class="input-group">
-                <label><i class="fas fa-percent"></i> Pensión Empleado</label>
-                <input type="text" value="4%" disabled style="background: #f8fafc;">
-                <small class="help-text">Deducción estándar de ley.</small>
+            
+            <div style="background: #fff7ed; padding: 15px; border-radius: 12px; border-left: 4px solid #f97316; display: flex; align-items: start; gap: 10px;">
+                <i class="fas fa-info-circle" style="color: #f97316; margin-top: 3px;"></i>
+                <p style="margin: 0; font-size: 0.75rem; color: #9a3412; line-height: 1.3;">
+                    <strong>Nota Jurídica:</strong> A partir de julio de 2026, la jornada máxima legal en Colombia se establece en <strong>42 horas</strong>. El sistema ajustará automáticamente el recargo nocturno y dominical.
+                </p>
             </div>
-            <div class="input-group">
-                <label><i class="fas fa-hospital"></i> Salud Empleado</label>
-                <input type="text" value="4%" disabled style="background: #f8fafc;">
-                <small class="help-text">Deducción estándar de ley.</small>
-            </div>
-        </div>
-
-        <div style="margin-top: 30px; padding: 15px; background: #fff7ed; border-radius: 10px; border-left: 4px solid #f97316; display: flex; align-items: center; gap: 12px;">
-            <i class="fas fa-info-circle" style="color: #f97316;"></i>
-            <p style="margin: 0; font-size: 0.8rem; color: #9a3412;">
-                <strong>Nota sobre Jornada:</strong> Según la Ley 2101 de 2021, para el año 
-                2026 la jornada máxima legal se proyecta en <strong>42 horas semanales</strong>.
-                 Esto incrementa automáticamente el valor de la hora ordinaria y las horas extra.
-            </p>
         </div>
     </div>
 </section>

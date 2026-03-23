@@ -17,118 +17,314 @@
         });
 
      // MOTOR DE CÁLCULO UNIFICADO
-
-
 function actualizarTodo() {
-    // 1. DATOS BASE
-    const smmlv = parseFloat(document.getElementById('conf_smlv').value) || 0;
-    const aux_config = parseFloat(document.getElementById('conf_aux').value) || 0;
-    const sueldo = parseFloat(document.getElementById('sueldo_base').value) || 0;
+    // 1. DATOS BASE (Agregada la captura de la Jornada Laboral 2026)
+    const smmlv = parseFloat(document.getElementById('conf_smlv')?.value) || 0;
+    const aux_config = parseFloat(document.getElementById('conf_aux')?.value) || 0;
+    const sueldo = parseFloat(document.getElementById('sueldo_base')?.value) || 0;
+    const horas_semana = parseFloat(document.getElementById('conf_jornada')?.value) || 42; // Nueva: 42, 44 o 46
     const dias = calcularDias();
     const f = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
 
-    const aplica_aux = (sueldo < (smmlv * 2)) ? "si" : "no";
-    document.getElementById('aplica_aux').value = aplica_aux;
+    const aplica_aux = (sueldo <= (smmlv * 2)) ? "si" : "no";
+   
     const aux_real = aplica_aux === 'si' ? aux_config : 0;
     const baseP = sueldo + aux_real;
 
-    /// --- [PARTE A: COSTOS EMPLEADOR - OPTIMIZADO] ---
-// Pension Empleador fija al 12% (0.12)
-const p_patrono = sueldo * 0.12; 
+    // --- [NUEVAS VARIABLES: DOTACIÓN, BONOS, PENDIENTES] ---
+    const v_dotacion = parseFloat(document.getElementById('v_dotacion')?.value) || 0;
+    const v_bonos = parseFloat(document.getElementById('v_bonos')?.value) || 0;
+    const d_pendientes = parseFloat(document.getElementById('dias_pendientes')?.value) || 0;
+    const d_vac_pendientes = parseFloat(document.getElementById('dias_vac_pendientes')?.value) || 0;
 
-// ARL: Intentamos leer el selector, si no existe usamos el nivel I por defecto
-const selector_arl = document.getElementById('cfg_arl');
-let pct_arl_e = 0.00522; // Nivel I por defecto
-let texto_nivel = "Nivel I";
+    const valor_sueldo_pendiente = (sueldo / 30) * d_pendientes;
+    const valor_vac_pendientes = (sueldo / 30) * d_vac_pendientes;
 
-if (selector_arl) {
-    pct_arl_e = parseFloat(selector_arl.value) / 100;
-    texto_nivel = selector_arl.options[selector_arl.selectedIndex].text.split('(')[0].trim();
+    // --- [PARTE A: COSTOS EMPLEADOR (MODIFICADO PARA INTEGRAR EXONERACIÓN)] ---
+    const isExonerado = document.getElementById('chk_exonerado')?.checked;
+    let pct_salud_patron = 0.085;
+    let pct_sena = 0.02;
+    let pct_icbf = 0.03;
+
+    // Aplicar Exoneración Ley 1607 si gana menos de 10 SMMLV
+    if (isExonerado && sueldo < (smmlv * 10)) {
+        pct_salud_patron = 0;
+        pct_sena = 0;
+        pct_icbf = 0;
+    }
+
+    const p_patrono_pension = sueldo * 0.12; 
+    const p_patrono_salud = sueldo * pct_salud_patron;
+    
+    const selector_arl = document.getElementById('cfg_arl');
+    let pct_arl_e = 0.00522; 
+    if (selector_arl) {
+        pct_arl_e = parseFloat(selector_arl.value) / 100;
+    }
+    const p_arl = sueldo * pct_arl_e;
+    const p_caja = sueldo * 0.04;
+    const p_parafiscales_extra = (sueldo * pct_sena) + (sueldo * pct_icbf);
+    const p_provisiones = baseP * 0.2183; 
+
+    // Actualizar Tarjetas Laterales de Costos (IDs nuevos y existentes)
+    if(document.getElementById('costo_side_ss_patronal')) {
+        document.getElementById('costo_side_ss_patronal').innerText = f.format(p_patrono_pension + p_patrono_salud + p_arl);
+    }
+    if(document.getElementById('costo_side_parafiscales')) {
+        document.getElementById('costo_side_parafiscales').innerText = f.format(p_caja + p_parafiscales_extra);
+    }
+    if(document.getElementById('costo_side_prov')) {
+        document.getElementById('costo_side_prov').innerText = f.format(p_provisiones);
+    }
+    if(document.getElementById('costo_side_total')) {
+        const total_gasto_jefe = sueldo + aux_real + p_patrono_pension + p_patrono_salud + p_arl + p_caja + p_parafiscales_extra + p_provisiones;
+        document.getElementById('costo_side_total').innerText = f.format(total_gasto_jefe);
+        // Factor multiplicador
+        if(document.getElementById('costo_factor_real')) {
+            document.getElementById('costo_factor_real').innerText = (total_gasto_jefe / (sueldo || 1)).toFixed(2) + "x";
+        }
+    }
+
+    // --- [PARTE B: NETO TRABAJADOR (AJUSTADO POR JORNADA 2026)] ---
+    const vho = sueldo / (horas_semana * 4.33); // Divisor dinámico según Ley 2101
+    const vdia = sueldo / 30;
+    
+    // Indicadores superiores
+    if(document.getElementById('val_dia')) document.getElementById('val_dia').innerText = f.format(vdia);
+    if(document.getElementById('val_hora')) document.getElementById('val_hora').innerText = f.format(vho);
+    if(document.getElementById('val_base_pres')) document.getElementById('val_base_pres').innerText = f.format(baseP);
+    if(document.getElementById('display_dias')) document.getElementById('display_dias').innerText = dias;
+
+
+// --- AÑADE ESTA LÍNEA PARA QUE SE VEA EN LA PANTALLA ---
+if(document.getElementById('display_aux_transporte')) {
+    document.getElementById('display_aux_transporte').innerText = f.format(aux_real);
 }
 
-const p_arl = sueldo * pct_arl_e;
-const p_caja = sueldo * 0.04; // Caja de Compensación fija 4%
-const p_provisiones = baseP * 0.2183; // Primas, Cesantías, etc. (Aprox 21.83%)
-
-// Actualización de la interfaz lateral (Dashboard de Costos)
-if(document.getElementById('costo_side_pens')) {
-    document.getElementById('costo_side_pens').innerText = f.format(p_patrono);
-    document.getElementById('costo_side_arl').innerText = f.format(p_arl);
-    document.getElementById('costo_side_caja').innerText = f.format(p_caja);
-    document.getElementById('costo_side_prov').innerText = f.format(p_provisiones);
-    
-    const etiquetaArl = document.getElementById('costo_side_arl').parentElement.querySelector('span');
-    if(etiquetaArl) etiquetaArl.innerText = `ARL (${texto_nivel})`;
-    
-    const total_gasto_jefe = sueldo + aux_real + p_patrono + p_arl + p_caja + p_provisiones;
-    document.getElementById('costo_side_total').innerText = f.format(total_gasto_jefe);
+// También asegúrate de que el input oculto (si lo usas) se actualice
+if(document.getElementById('aplica_aux')) {
+    document.getElementById('aplica_aux').value = aplica_aux;
 }
-// --- [FIN PARTE EMPLEADOR] ---
 
-    // --- [PARTE B: NETO REAL TRABAJADOR - PARA QUE COINCIDA CON PDF] ---
-    
-    // Recargos e Indemnización
-    const vho = sueldo / 240;
-    const totalRecargos = (vho * 0.35 * (parseFloat(document.getElementById('h_rn')?.value) || 0)) + 
-                         (vho * 0.75 * (parseFloat(document.getElementById('h_df')?.value) || 0)) + 
-                         (vho * 1.25 * (parseFloat(document.getElementById('h_hed')?.value) || 0)) + 
-                         (vho * 1.75 * (parseFloat(document.getElementById('h_hen')?.value) || 0));
 
-    const v_indem = document.getElementById('check_indem')?.checked ? (parseFloat(document.getElementById('dias_indem')?.value) || 0) * (sueldo / 30) : 0;
 
-    // Prestaciones Sociales
+    // Prestaciones
     const esAprendiz = document.getElementById('emp_contrato').value === "Aprendizaje";
     const r_prima = esAprendiz ? 0 : (baseP * dias) / 360;
     const r_cesantias = esAprendiz ? 0 : (baseP * dias) / 360;
     const r_intCes = esAprendiz ? 0 : (r_cesantias * dias * 0.12) / 360;
     const r_vacas = esAprendiz ? 0 : (sueldo * dias) / 720;
-    const total_prestaciones = r_prima + r_cesantias + r_intCes + r_vacas;
+    const total_prestaciones = r_prima + r_cesantias + r_intCes + r_vacas + valor_vac_pendientes;
 
-    // Nómina y Deducciones (Aquí está la clave de la diferencia)
-    const sueldo_periodo = (sueldo / 30) * dias;
-    const aux_periodo = (aux_real / 30) * dias;
+    // Nómina y Recargos
+    const totalRecargos = (vho * 0.35 * (parseFloat(document.getElementById('h_rn')?.value) || 0)) + 
+                          (vho * 0.75 * (parseFloat(document.getElementById('h_df')?.value) || 0)) + 
+                          (vho * 1.25 * (parseFloat(document.getElementById('h_hed')?.value) || 0)) + 
+                          (vho * 1.75 * (parseFloat(document.getElementById('h_hen')?.value) || 0));
+
+// --- [ACTUALIZAR VALORES UNITARIOS EN LA UI] ---
     
+    if(document.getElementById('unit_hed')) document.getElementById('unit_hed').innerText = f.format(vho * 1.25);
+    if(document.getElementById('unit_hen')) document.getElementById('unit_hen').innerText = f.format(vho * 1.75);
+    if(document.getElementById('unit_rn'))  document.getElementById('unit_rn').innerText  = f.format(vho * 0.35);
+    if(document.getElementById('unit_df'))  document.getElementById('unit_df').innerText  = f.format(vho * 0.75);
+
+
+
+
+    const v_indem = document.getElementById('check_indem')?.checked ? (parseFloat(document.getElementById('dias_indem')?.value) || 0) * vdia : 0;
+    const total_ingresos = valor_sueldo_pendiente + totalRecargos + v_indem + v_dotacion + v_bonos;
+
+    // Deducciones (Incluye Fondo de Solidaridad Pensional)
+    const ibc_periodo = valor_sueldo_pendiente + totalRecargos;
+    const r_salud = ibc_periodo * 0.04;
+    const r_pension = esAprendiz ? 0 : (ibc_periodo * 0.04);
     
-  // IBC para salud y pensión es Sueldo + Recargos
-const ibc_periodo = sueldo_periodo + totalRecargos;
-const r_salud = ibc_periodo * 0.04; // Aquí ya lo tienes fijo al 4% (0.04), ¡bien!
-const r_pension = esAprendiz ? 0 : (ibc_periodo * 0.04);
-    
-    // Descuentos manuales
+    // Lógica FSP
+    let r_fsp = 0;
+    if (sueldo >= (smmlv * 4)) {
+        r_fsp = sueldo * 0.01;
+        if(document.getElementById('row_fsp')) document.getElementById('row_fsp').style.display = 'flex';
+    } else {
+        if(document.getElementById('row_fsp')) document.getElementById('row_fsp').style.display = 'none';
+    }
+
     const r_cons = parseFloat(document.getElementById('d_consumos')?.value) || 0;
     const r_otros = parseFloat(document.getElementById('d_otros')?.value) || 0;
-    
-    const total_deducciones = r_salud + r_pension + r_cons + r_otros;
-    const total_ingresos = sueldo_periodo + aux_periodo + totalRecargos + v_indem;
+    const total_deducciones = r_salud + r_pension + r_fsp + r_cons + r_otros;
 
-    // NETO FINAL REAL
     const neto_final_real = total_prestaciones + total_ingresos - total_deducciones;
 
-    // ACTUALIZAR TARJETA DE RESUMEN
-    if(document.getElementById('resumen_prestaciones')){
+    // Actualizar Resumen Final
+    if(document.getElementById('resumen_total_neto')){
         document.getElementById('resumen_prestaciones').innerText = f.format(total_prestaciones);
         document.getElementById('resumen_nomina_extras').innerText = f.format(total_ingresos);
         document.getElementById('resumen_deducciones').innerText = "- " + f.format(total_deducciones);
         document.getElementById('resumen_total_neto').innerText = f.format(neto_final_real);
     }
 
-    // Indicadores superiores
-    document.getElementById('val_dia').innerText = f.format(sueldo / 30);
-    document.getElementById('val_hora').innerText = f.format(vho);
-    document.getElementById('val_base_pres').innerText = f.format(baseP);
-    document.getElementById('display_dias').innerText = dias;
+    // Actualizar visualización de porcentajes en la sección de Seguridad
+    if(document.getElementById('display_pct_arl')) document.getElementById('display_pct_arl').innerText = (pct_arl_e * 100).toFixed(3) + "%";
 
-    // AGREGA ESTA LÍNEA AL FINAL DE actualizarTodo()
- // Busca el final de actualizarTodo y reemplaza el return por este:
-   // Reemplaza tu return actual por este al final de actualizarTodo
-    return { 
-        f, dias, sueldo, baseP, aux_real, 
-        total_prestaciones, total_ingresos, total_deducciones, 
-        neto_final_real, r_prima, r_cesantias, r_intCes, r_vacas,
-        totalRecargos, v_indem , r_cons, r_otros,
-        r_salud, r_pension
-    };
+// --- [ACTUALIZAR TARJETAS VISUALES DE SEGURIDAD SOCIAL] ---
+    
+    // 1. Actualizar Salud
+    if(document.getElementById('val_salud_emp')) document.getElementById('val_salud_emp').innerText = f.format(r_salud);
+    if(document.getElementById('val_salud_patron')) document.getElementById('val_salud_patron').innerText = f.format(p_patrono_salud);
+
+    // 2. Actualizar Pensión
+    if(document.getElementById('val_pension_emp')) document.getElementById('val_pension_emp').innerText = f.format(r_pension);
+    if(document.getElementById('val_pension_patron')) document.getElementById('val_pension_patron').innerText = f.format(p_patrono_pension);
+
+    // 3. Actualizar FSP (Solo se muestra si r_fsp > 0)
+    if(document.getElementById('display_fsp')) {
+        document.getElementById('display_fsp').innerText = f.format(r_fsp);
+        // Si hay FSP, mostrar la fila, si no, ocultarla
+        document.getElementById('row_fsp').style.display = r_fsp > 0 ? 'flex' : 'none';
+    }
+
+    // 4. Actualizar ARL y Dinámica de Color
+    if(document.getElementById('val_arl_dinero')) document.getElementById('val_arl_dinero').innerText = f.format(p_arl);
+    
+    const cardARL = document.getElementById('arl_card_interactive');
+    if(cardARL) {
+        // Colores según nivel de riesgo
+        
+// Colores según nivel de riesgo (Mismos tonos de tu imagen)
+const coloresARL = { 
+    "0.522": "#3b82f6", // Azul (Riesgo 1)
+    "1.044": "#10b981", // Verde (Riesgo 2)
+    "2.436": "#f59e0b", // Ámbar (Riesgo 3)
+    "4.350": "#f97316", // Naranja (Riesgo 4)
+    "6.960": "#ef4444"  // Rojo (Riesgo 5)
+};
+
+const riesgoActual = document.getElementById('cfg_arl')?.value || "0.522";
+const colorSeleccionado = coloresARL[riesgoActual] || "#3b82f6";
+
+// 1. Mantenemos el fondo blanco para que el texto se vea (IMPORTANTE)
+cardARL.style.background = "#ffffff"; 
+
+// 2. Aplicamos el color solo al borde superior (como en tu captura)
+cardARL.style.borderTop = `6px solid ${colorSeleccionado}`;
+
+// 3. CAMBIAMOS EL COLOR DEL ICONO (El casco)
+const iconoCasco = document.getElementById('arl_icon'); // Asegúrate que el <i> tenga este ID
+if (iconoCasco) {
+    iconoCasco.style.color = colorSeleccionado;
 }
+
+// 4. CAMBIAMOS EL COLOR DEL PORCENTAJE
+const pctTexto = document.getElementById('display_pct_arl');
+if (pctTexto) {
+    pctTexto.style.color = colorSeleccionado;
+}
+
+// 5. CAMBIAMOS EL COLOR DEL TAG (El pequeño cuadro de "Nivel I, II...")
+const tagNivel = document.getElementById('arl_tag');
+if (tagNivel) {
+    tagNivel.style.backgroundColor = colorSeleccionado;
+    tagNivel.style.color = "#ffffff"; // Texto del tag siempre blanco
+}
+
+
+
+/*
+const riesgoActual = document.getElementById('cfg_arl')?.value || "0.522";
+const colorSeleccionado = coloresARL[riesgoActual] || "#3b82f6";
+*/
+// APLICAR CAMBIOS SIN TAPAR EL TEXTO:
+cardARL.style.background = "#ffffff"; // Mantenemos el fondo blanco
+cardARL.style.borderTop = `6px solid ${colorSeleccionado}`; // Solo pintamos el borde de arriba
+
+// También pintamos el icono y el porcentaje para que combinen
+if (document.getElementById('arl_icon')) {
+    document.getElementById('arl_icon').style.color = colorSeleccionado;
+}
+if (document.getElementById('display_pct_arl')) {
+    document.getElementById('display_pct_arl').style.color = colorSeleccionado;
+}
+
+
+ }
+
+// --- [ESTO ES LO QUE HACE QUE CAMBIEN DE $0 A LOS VALORES REALES] ---
+
+// 1. Actualizar Salud en las tarjetas
+if(document.getElementById('val_salud_emp')) {
+    document.getElementById('val_salud_emp').innerText = f.format(r_salud);
+}
+if(document.getElementById('val_salud_patron')) {
+    document.getElementById('val_salud_patron').innerText = f.format(p_patrono_salud);
+}
+
+// 2. Actualizar Pensión en las tarjetas
+if(document.getElementById('val_pension_emp')) {
+    document.getElementById('val_pension_emp').innerText = f.format(r_pension);
+}
+if(document.getElementById('val_pension_patron')) {
+    document.getElementById('val_pension_patron').innerText = f.format(p_patrono_pension);
+}
+
+// 3. Actualizar ARL (Dinero)
+if(document.getElementById('val_arl_dinero')) {
+    document.getElementById('val_arl_dinero').innerText = f.format(p_arl);
+}
+
+
+    return { f, dias, sueldo, baseP, aux_real, total_prestaciones, total_ingresos, total_deducciones, neto_final_real, r_prima, r_cesantias, r_intCes, r_vacas, totalRecargos, v_indem, r_salud, r_pension, v_dotacion, v_bonos, valor_sueldo_pendiente, valor_vac_pendientes, d_pendientes, d_vac_pendientes, r_cons, r_otros };
+}
+
+
+
+ // FIN DE MOTOR DE CÁLCULO UNIFICADO
+
+// Función auxiliar para actualizar descripción de ARL
+
+function actualizarInfoARL() {
+    const sel = document.getElementById('cfg_arl');
+    const arlCard = document.getElementById('arl_card_interactive');
+    const displayPct = document.getElementById('display_pct_arl');
+    const arlDesc = document.getElementById('arl_desc');
+    
+    if (!sel || !arlCard) return;
+
+    const valor = sel.value;
+    const textoCompleto = sel.options[sel.selectedIndex].text;
+    
+
+
+   
+
+    // 1. Cambiamos el color de fondo de la tarjeta con una transición suave
+    arlCard.style.backgroundColor = estilo.color;
+    arlCard.style.transition = "all 0.4s ease-in-out";
+
+    // 2. Actualizamos el porcentaje grande
+    if (displayPct) displayPct.innerText = valor + "%";
+
+    // 3. Actualizamos la descripción dinámica
+    if (arlDesc) arlDesc.innerText = estilo.detalle;
+
+    // 4. Actualizamos el icono (opcional si tienes el contenedor de icono con ID)
+    const icono = arlCard.querySelector('i');
+    if (icono) {
+        // Limpiamos clases de iconos anteriores y ponemos la nueva
+        icono.className = `fas ${estilo.icon} fa-lg`;
+        icono.style.color = (valor === "0.522") ? "#3b82f6" : "white"; // En riesgo I el icono destaca en azul
+    }
+}
+
+
+
+/*
+function actualizarInfoARL() {
+    const sel = document.getElementById('cfg_arl');
+    const desc = document.getElementById('arl_desc');
+    const text = sel.options[sel.selectedIndex].text;
+    desc.innerText = "Actividad: " + text.split('-')[1] || "Protección estándar";
+}
+*/
 
       function calcularDias() {
     const startVal = document.getElementById('fecha_inicio').value;
@@ -164,7 +360,7 @@ const r_pension = esAprendiz ? 0 : (ibc_periodo * 0.04);
 
 function generarPrevisualizacion() {
 
-    // 1. OBTENEMOS LOS DATOS (¡No los comentes! Son necesarios para el resto)
+    // 1. OBTENEMOS LOS DATOS 
     const data = actualizarTodo();
     const f = data.f;
 
@@ -187,6 +383,7 @@ const rn = vho * 0.35 * horasNocturnas;  // Recargo Nocturno (35%)
 const df = vho * 0.75 * horasDominicales; // Recargo Dominical (75%)
 const hed = vho * 1.25 * horasExtraDiur;  // Hora Extra Diurna (1.25) 
 const hen = vho * 1.75 * horasExtraNoct;  // Hora Extra Nocturna (1.75) 
+
 
 // 3.4. Sumamos todos los recargos para el gran total
 const totalRecargosYExtras = rn + df + hed + hen;
@@ -212,6 +409,11 @@ const pens_t = esAprendiz ? 0 : ibc * 0.04; // Valor fijo
     // 6. Deducciones extras (Tomadas de los datos procesados)
     const cons = data.r_cons;
     const otros = data.r_otros;
+
+
+
+
+
 
     // 7. LLENAR DATOS BÁSICOS EN EL PDF
     document.getElementById('p_empresa_header').innerText = document.getElementById('conf_razon').value;
@@ -299,6 +501,10 @@ document.getElementById('pdf_tabla_ded').innerHTML = `
     
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
+/*FIN DE TABLAS PDF*/
+
+
+
 
 /* contrato obra labor*/
 
@@ -417,7 +623,7 @@ function numeroALetras(num) {
 
 function actualizarInfoARL() {
     const nivel = document.getElementById('cfg_arl').value;
-    const infoText = document.getElementById('arl_descripcion_dinamica');
+    const infoText = document.getElementById('arl_desc');
     const card = document.getElementById('arl_card_interactive');
     const tag = document.getElementById('arl_tag');
     const icon = document.getElementById('arl_icon');

@@ -1610,3 +1610,17 @@
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+
+
+
+
+.unit-value {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: #6366f1; /* Un color púrpura/azul para resaltar */
+    font-weight: 600;
+}
+
+
