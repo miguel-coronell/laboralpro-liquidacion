@@ -357,60 +357,127 @@
         transition: var(--transition); font-size: 14px; letter-spacing: 0.5px;
     }
 
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary) 0%, #2563eb 100%);
-    color: white;
-    width: fit-content;
-    min-width: 280px;         /* Un poco más ancho para dar presencia */
-    padding: 16px 35px;      /* Más aire interno */
-    border-radius: 14px;     /* Bordes más redondeados y modernos */
+
+
+
+/* =============================================
+   BOTÓN MÁGICO - COHERENTE CON MODAL
+   ============================================= */
+.btn-generate-magic {
+    position: relative;
+    background: linear-gradient(135deg, #3b82f6 0%, #1e4ed8 100%);
+    border: none;
+    padding: 18px 30px;
+    border-radius: 20px;
+    cursor: pointer;
+    overflow: hidden;
+    display: block;
+    margin: 40px auto;
+    width: 100%;
+    max-width: 380px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
+}
+
+.btn-inner {
     display: flex;
     align-items: center;
-    gap: 12px;               /* Espacio perfecto entre icono y texto */
-    margin: 40px auto;       /* Más separación de los elementos superiores */
+    gap: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Icono con animación de brillo */
+.icon-magic-wrapper {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    border: none;
-    font-weight: 700;        /* Texto más grueso para que destaque */
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animación fluida */
-    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
-    text-transform: uppercase; /* Opcional: le da un toque más oficial */
-    letter-spacing: 0.5px;
+    color: white;
+    font-size: 1.3rem;
+    transition: transform 0.5s ease;
 }
 
-/* Efecto al pasar el mouse (Hover) */
-.btn-primary:hover {
-    transform: translateY(-3px); /* Se eleva un poco */
-    box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.4);
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    filter: brightness(1.05);
+/* Grupo de Texto */
+.btn-text-group {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Efecto al hacer clic (Active) */
-.btn-primary:active {
-    transform: translateY(0); /* Vuelve a su sitio al presionar */
-    box-shadow: 0 5px 10px rgba(37, 99, 235, 0.2);
+.btn-top-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
-/* Estilo para el icono dentro del botón */
-.btn-primary i {
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
+.btn-main-text {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
 }
 
-.btn-primary:hover i {
-    transform: scale(1.2); /* El icono crece un poco al pasar el mouse */
+.btn-sub-text {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
 }
 
+/* Efecto de Brillo */
+.btn-shine-effect {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: all 0.6s;
+}
 
-/* En móvil el botón sí debe ocupar más espacio para el dedo */
-@media (max-width: 768px) {
-    .btn-primary {
-        width: 100%;
-        max-width: none;
+/* --- INTERACCIONES --- */
+
+.btn-generate-magic:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.4);
+}
+
+.btn-generate-magic:hover .btn-shine-effect {
+    left: 100%;
+}
+
+.btn-generate-magic:hover .icon-magic-wrapper {
+    transform: rotate(20deg) scale(1.2);
+    background: white;
+    color: var(--primary);
+}
+
+.btn-generate-magic:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+/* --- AJUSTE IPHONE 11 --- */
+@media (max-width: 414px) {
+    .btn-generate-magic {
+        padding: 15px 20px;
+        max-width: 90%;
+    }
+
+    .btn-main-text {
+        font-size: 1rem;
+    }
+    
+    .icon-magic-wrapper {
+        width: 40px;
+        height: 40px;
     }
 }
+
 
 
     /* --- RESPONSIVE MOBILE --- */
@@ -940,88 +1007,121 @@
     color: #ef4444 !important;
 }
 
+
 /* =============================================
-   TOTAL NETO - ESTILO PROFESIONAL AZULADO
+   TOTAL NETO - RESPONSIVO & HOVER PRO
    ============================================= */
 .total-neto-container {
-    margin-top: 35px;
-    padding: 30px 40px !important;
-    /* Cambiamos el gradiente oscuro por uno pastel vibrante */
-    background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%) !important;
-    border-radius: 15px !important;
+    margin-top: 30px;
+    padding: 30px !important;
+    background: var(--white) !important;
+    border-radius: 20px !important;
+    border: 2px solid #e2eefc !important;
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.05) !important;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column; /* TEXTO ARRIBA, NÚMERO ABAJO */
+    gap: 20px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
-    /* Borde sutil que combina con las tarjetitas */
-    border: 2px solid #e2eefc !important;
-    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.08) !important;
 }
 
-/* Línea decorativa lateral para dar énfasis */
-.total-neto-container::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 6px;
-    background: #3b82f6; /* El azul Pro */
+/* EFECTO HOVER */
+.total-neto-container:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary) !important;
+    box-shadow: 0 20px 40px rgba(59, 130, 246, 0.12) !important;
 }
 
-.total-neto-info span {
-    font-size: 13px !important;
-    font-weight: 800 !important;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: #3b82f6 !important; /* Texto en azul */
-    display: block;
-    margin-bottom: 5px;
+/* Icono y Título */
+.neto-title-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
 }
 
-.total-neto-info p {
-    font-size: 12px !important;
-    margin: 0 !important;
-    color: #64748b !important; /* Gris azulado suave */
-    max-width: 500px;
-    line-height: 1.5 !important;
-    font-style: normal; /* Menos distracciones */
+.neto-icon-main {
+    font-size: 1.5rem;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 12px;
+    border-radius: 12px;
 }
 
-/* Contenedor de la cifra */
-.total-neto-monto {
-    text-align: right;
-    z-index: 2;
-}
-
-.total-neto-monto strong {
-    font-size: 2.2rem !important; /* Más grande para que destaque */
-    font-weight: 900;
-    color: #1e293b !important; /* Casi negro para máxima lectura */
+.neto-badge {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: 1.5px;
     display: block;
 }
 
-.total-neto-monto small {
-    font-size: 12px !important;
-    color: #3b82f6 !important;
-    font-weight: 700;
-    opacity: 1;
+.neto-main-title {
+    font-size: 1.4rem;
+    color: var(--text-main);
+    font-weight: 800;
+    margin: 0;
 }
 
-/* Icono Decorativo sutilizado */
-.total-neto-container::after {
-    content: "\f53d"; 
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    position: absolute;
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 5rem;
-    color: rgba(59, 130, 246, 0.05); /* Muy, muy tenue */
-    z-index: 1;
+.neto-description {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 100%;
 }
+
+/* Caja del Monto (Abajo) */
+.neto-monto-box {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center; /* Centrado para mejor lectura */
+    border: 1px solid #f1f5f9;
+}
+
+.neto-currency {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-right: 5px;
+}
+
+#resumen_total_neto {
+    font-size: 2.2rem !important; /* Tamaño responsivo */
+    font-weight: 900;
+    color: var(--text-main) !important;
+    letter-spacing: -1px;
+}
+
+.neto-footer-info {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 15px;
+}
+
+/* --- OPTIMIZACIÓN MÓVIL (iPhone 11) --- */
+@media (max-width: 414px) {
+    .total-neto-container {
+        padding: 20px !important;
+    }
+
+    .neto-main-title {
+        font-size: 1.2rem;
+    }
+
+    #resumen_total_neto {
+        font-size: 1.7rem !important; /* Se reduce para que quepan cifras largas */
+    }
+
+    .neto-description {
+        font-size: 12px;
+    }
+}
+
+
+
 
 /* Estilos PDF */
 /* Edición para bloque horizontal compacto */
@@ -1304,7 +1404,7 @@
 
 /* Contenedor para dar aire y centrar */
 .intro-container {
-    margin: 30px auto 10px auto; /* 30px de separación con el encabezado */
+    margin: 15px auto 5px auto; /* 30px de separación con el encabezado */
     padding: 0 30px;             /* Alineado con el padding de tu content-area */
     max-width: 1100px;            /* Ancho controlado para que no sea muy largo */
     width: 100%;
@@ -1313,12 +1413,12 @@
 .info-banner-colombia {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     background: #ffffff;
     /* Borde lateral azul en vez de amarillo para que combine con LaboralPro */
     border-left: 4px solid #3b82f6; 
-    padding: 15px 25px;
-    border-radius: 16px;
+    padding: 10px 20px;
+    border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
     border-top: 1px solid #f1f5f9;
     border-right: 1px solid #f1f5f9;
@@ -1326,37 +1426,42 @@
 }
 
 .banner-icon {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     color: #3b82f6;
     background: #eff6ff;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
 .banner-content h4 {
     margin: 0;
     color: #1e293b;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: 800;
 }
 
 .banner-content p {
     margin: 4px 0 0 0;
     color: #64748b;
-    font-size: 0.85rem;
-    line-height: 1.6;
+    font-size: 0.75rem;
+    line-height: 1.4;
 }
 
-/* Ajuste para móviles */
+/* AJUSTE PARA MÓVILES (iPhone 11) */
 @media (max-width: 768px) {
     .info-banner-colombia {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
+        flex-direction: row !important; /* MANTIENE EL LOGO A LA IZQUIERDA */
+        text-align: left !important;   /* MANTIENE EL TEXTO ALINEADO */
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .banner-content p {
+        font-size: 0.7rem; /* Aún más pequeño en móvil para que no haga scroll */
     }
 }
 
@@ -1613,8 +1718,6 @@
 
 
 
-
-
 .unit-value {
     display: block;
     margin-top: 5px;
@@ -1624,3 +1727,139 @@
 }
 
 
+/* --- DISEÑO LIGHT PARA COSTOS JEFE --- */
+.analysis-container-light {
+    padding: 10px;
+}
+
+.card-boss-light {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 25px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-boss-light:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.1);
+}
+
+.boss-header-light {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.icon-box-blue {
+    width: 48px;
+    height: 48px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.badge-status-blue {
+    font-size: 0.65rem;
+    color: var(--primary);
+    font-weight: 800;
+    letter-spacing: 1px;
+    display: block;
+}
+
+.main-title-light {
+    font-size: 1.25rem;
+    color: var(--text-main);
+    font-weight: 700;
+    margin: 0;
+}
+
+.text-description {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+/* Área del Número */
+.price-display-light {
+    background: #f8fafc;
+    border-radius: 18px;
+    padding: 25px 15px;
+    text-align: center;
+    border: 1px solid #f1f5f9;
+}
+
+.currency-blue {
+    color: var(--primary);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.value-main-light {
+    color: var(--text-main);
+    font-size: 2.2rem; /* Tamaño ideal para iPhone 11 */
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.suffix-light {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Conceptos rápidos */
+.concept-grid {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.concept-item {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.concept-item i {
+    color: #10b981; /* Verde éxito */
+    font-size: 0.8rem;
+}
+
+.boss-footer-light {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* AJUSTE IPHONE 11 */
+@media (max-width: 414px) {
+    .value-main-light {
+        font-size: 1.8rem !important;
+    }
+    
+    .card-boss-light {
+        padding: 20px;
+    }
+
+    .concept-grid {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 20%
+    }
+}

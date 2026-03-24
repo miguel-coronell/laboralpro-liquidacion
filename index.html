@@ -171,6 +171,7 @@
     </div>
 </header>
 
+
     <div class="intro-container">
     <div class="info-banner-colombia">
         <div class="banner-icon">
@@ -409,21 +410,41 @@
 
 </div>
 
+
+
+
+
+
+
+
 <div class="total-neto-container">
-    <div class="total-neto-info">
-    <span>Total Neto a Pagar</span>
-    <p>
-        Resultado del balance prestacional: incluye Cesantías, Intereses, Prima de Servicios y Vacaciones causadas; 
-        sumado a la base salarial devengada, subsidios y horas extra, tras aplicar retenciones de seguridad social (Salud/Pensión) 
-        y descuentos autorizados.
-    </p>
-</div>
-    
-    <div class="total-neto-monto">
-        <strong id="resumen_total_neto">$ 0</strong>
-        <small>Moneda: COP (Pesos Colombianos)</small>
+    <div class="neto-header">
+        <div class="neto-title-group">
+            <i class="fas fa-wallet neto-icon-main"></i>
+            <div class="neto-text-wrapper">
+                <span class="neto-badge">LIQUIDACIÓN FINAL</span>
+                <h2 class="neto-main-title">Total Neto a Pagar</h2>
+            </div>
+        </div>
+        <p class="neto-description">
+            Cifra final tras consolidar salarios, prestaciones sociales, recargos y descuentos de ley. 
+            Este valor es el monto exacto que debe recibir el trabajador en su cuenta.
+        </p>
+    </div>
+
+    <div class="neto-body">
+        <div class="neto-monto-box">
+            <span class="neto-currency">COP</span>
+            <strong id="resumen_total_neto">$ 0</strong>
+        </div>
+        <div class="neto-footer-info">
+            <i class="fas fa-info-circle"></i> Valores sujetos a validación según el CST 2026
+        </div>
     </div>
 </div>
+
+
+
 
 <div class="disclaimer-container">
     <div class="disclaimer-icon">
@@ -440,10 +461,20 @@
     </div>
 </div>
 
-<button class="btn btn-primary" onclick="generarPrevisualizacion()">
-    <i class="fas fa-file-signature"></i>
-    <span>GENERAR LIQUIDACIÓN Y PAZ Y SALVO</span>
-</button>       
+
+<button class="btn-generate-magic" onclick="generarPrevisualizacion()">
+    <div class="btn-inner">
+        <div class="icon-magic-wrapper">
+            <i class="fas fa-magic"></i>
+        </div>
+        <div class="btn-text-group">
+            <span class="btn-top-label">FINALIZAR PROCESO</span>
+            <span class="btn-main-text">GENERAR LIQUIDACIÓN</span>
+            <span class="btn-sub-text">PDF · WhatsApp · Email</span>
+        </div>
+    </div>
+    <div class="btn-shine-effect"></div>
+</button>
 
  </section>
 
@@ -516,21 +547,61 @@
                 <div id="costo_factor_real" style="font-size: 1.6rem; font-weight: 800; color: #475569; margin: 10px 0;">1.XX</div>
                 <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin: 0;">Por cada $1 de salario, la empresa paga realmente este valor.</p>
             </div>
+        </div>
+    </div>
 
+
+ <div class="analysis-container-light">
+    <div class="card-boss-light">
+        <div class="boss-header-light">
+            <div class="icon-box-blue">
+                <i class="fas fa-hand-holding-dollar"></i>
+            </div>
+            <div class="title-wrap">
+                <span class="badge-status-blue">ANÁLISIS DE CARGA REAL</span>
+                <h2 class="main-title-light">Gasto Operativo Mensual</h2>
+            </div>
         </div>
 
-        <div class="total-neto-container" style="background: linear-gradient(135deg, #0f172a 0%, #334155 100%) !important; margin-top: 40px; border-radius: 24px; padding: 35px; display: flex; align-items: center; justify-content: space-between; color: white;">
-            <div style="max-width: 60%;">
-                <span style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; opacity: 0.7; font-weight: 700;">Gasto Operativo Mensual</span>
-                <h2 style="margin: 10px 0; font-size: 1.1rem; font-weight: 400; line-height: 1.4;">Costo total para mantener el contrato activo bajo ley colombiana.</h2>
+        <div class="boss-body-light">
+            <p class="text-description">Inversión total estimada (Salario + Prestaciones + Seguridad Social) según normativa 2026.</p>
+            
+            <div class="price-display-light">
+                <span class="currency-blue">$</span>
+                <span id="costo_side_total" class="value-main-light">0</span>
+                <span class="suffix-light">/ mes</span>
             </div>
-            <div style="text-align: right;">
-                <div id="costo_side_total" style="font-size: 2.8rem; font-weight: 900; letter-spacing: -1px;">$ 0</div>
-                <span style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 8px; font-size: 0.8rem;">COSTO EMPRESA ESTIMADO</span>
+
+            <div class="concept-grid">
+                <div class="concept-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Aportes Ley</span>
+                </div>
+                <div class="concept-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Provisiones</span>
+                </div>
+                <div class="concept-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Carga Prestacional</span>
+                </div>
             </div>
+        </div>
+
+        <div class="boss-footer-light">
+            <i class="fas fa-shield-halved"></i> Datos calculados bajo el Código Sustantivo del Trabajo
         </div>
     </div>
 </div>
+
+
+
+
+</div>
+
+
+
+
 
 
      <section id="view-seguridad" class="view-section">
@@ -744,14 +815,17 @@
                 <small class="help-text">Afecta directamente el costo de la hora extra.</small>
             </div>
             
-            <div style="background: #fff7ed; padding: 15px; border-radius: 12px; border-left: 4px solid #f97316; display: flex; align-items: start; gap: 10px;">
+            
+        </div>
+
+        
+    </div>
+    <div style="background: #fff7ed; padding: 15px; border-radius: 12px; border-left: 4px solid #f97316; display: flex; align-items: start; gap: 10px;">
                 <i class="fas fa-info-circle" style="color: #f97316; margin-top: 3px;"></i>
                 <p style="margin: 0; font-size: 0.75rem; color: #9a3412; line-height: 1.3;">
                     <strong>Nota Jurídica:</strong> A partir de julio de 2026, la jornada máxima legal en Colombia se establece en <strong>42 horas</strong>. El sistema ajustará automáticamente el recargo nocturno y dominical.
                 </p>
             </div>
-        </div>
-    </div>
 </section>
     </div>
 
