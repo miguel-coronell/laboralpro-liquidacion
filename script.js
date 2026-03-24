@@ -37,8 +37,14 @@ function actualizarTodo() {
     const d_pendientes = parseFloat(document.getElementById('dias_pendientes')?.value) || 0;
     const d_vac_pendientes = parseFloat(document.getElementById('dias_vac_pendientes')?.value) || 0;
 
+
+
+
     const valor_sueldo_pendiente = (sueldo / 30) * d_pendientes;
     const valor_vac_pendientes = (sueldo / 30) * d_vac_pendientes;
+  
+
+   
 
     // --- [PARTE A: COSTOS EMPLEADOR (MODIFICADO PARA INTEGRAR EXONERACIÓN)] ---
     const isExonerado = document.getElementById('chk_exonerado')?.checked;
@@ -272,6 +278,8 @@ if(document.getElementById('val_arl_dinero')) {
 }
 
 
+
+
     return { f, dias, sueldo, baseP, aux_real, total_prestaciones, total_ingresos, total_deducciones, neto_final_real, r_prima, r_cesantias, r_intCes, r_vacas, totalRecargos, v_indem, r_salud, r_pension, v_dotacion, v_bonos, valor_sueldo_pendiente, valor_vac_pendientes, d_pendientes, d_vac_pendientes, r_cons, r_otros };
 }
 
@@ -356,151 +364,154 @@ function actualizarInfoARL() {
             el.style.display = el.style.display === 'block' ? 'none' : 'block';
         }
 
-// Función principal para Generar y abrir el Modal
+
+
+
+
+
+// Función principal para Generar y abrir el Modal 
+
 
 function generarPrevisualizacion() {
 
-    // 1. OBTENEMOS LOS DATOS 
+    // 1. OBTENEMOS LOS DATOS DIRECTAMENTE DEL MOTOR UNIFICADO
+    // Ya no recalculamos nada, usamos los valores exactos que arroja actualizarTodo()
     const data = actualizarTodo();
     const f = data.f;
 
-    // 2. IDENTIFICAMOS EL TIPO DE CONTRATO
+    // 2. IDENTIFICAMOS EL TIPO DE CONTRATO Y NOMBRES
     const selContrato = document.getElementById('emp_contrato');
-    const esAprendiz = selContrato.value === "Aprendizaje";
+    const textoContrato = selContrato.options[selContrato.selectedIndex].text;
+    const nombreObra = document.getElementById('nombre_obra').value;
 
-    // 3. NÓMINA Y RECARGOS
-// 3.1. Calculamos el valor de la hora ordinaria
-const vho = data.sueldo / 240;
-
-// 3.2. Capturamos el número de HORAS de todos los inputs nuevos
-const horasNocturnas = parseFloat(document.getElementById('h_rn').value) || 0;
-const horasDominicales = parseFloat(document.getElementById('h_df').value) || 0;
-const horasExtraDiur = parseFloat(document.getElementById('h_hed').value) || 0; // Nueva
-const horasExtraNoct = parseFloat(document.getElementById('h_hen').value) || 0; // Nueva
-
-// 3.3. Convertimos esas horas a PESOS según los porcentajes de ley
-const rn = vho * 0.35 * horasNocturnas;  // Recargo Nocturno (35%)
-const df = vho * 0.75 * horasDominicales; // Recargo Dominical (75%)
-const hed = vho * 1.25 * horasExtraDiur;  // Hora Extra Diurna (1.25) 
-const hen = vho * 1.75 * horasExtraNoct;  // Hora Extra Nocturna (1.75) 
-
-
-// 3.4. Sumamos todos los recargos para el gran total
-const totalRecargosYExtras = rn + df + hed + hen;
-
-// 3.5. Cálculo de Indemnización (Sigue igual)
-const indem = document.getElementById('check_indem').checked ? (parseFloat(document.getElementById('dias_indem').value) || 0) * (data.sueldo/30) : 0;
-
-    // 4. PRESTACIONES (Validamos si es aprendiz)
-    const prima = esAprendiz ? 0 : (data.baseP * data.dias) / 360;
-    const cesantias = esAprendiz ? 0 : (data.baseP * data.dias) / 360;
-    const intCes = esAprendiz ? 0 : (cesantias * data.dias * 0.12) / 360;
-    const vacas = esAprendiz ? 0 : (data.sueldo * data.dias) / 720;
-
-   // 5. SEGURIDAD SOCIAL (VALORES FIJOS 4%)
-const ibc = data.sueldo + totalRecargosYExtras;    
-const salud_t = ibc * 0.04; // Valor fijo, ya no busca en el HTML
+    // 3. LLENAR DATOS BÁSICOS EN EL PDF (Con valores por defecto si están vacíos)
+    document.getElementById('p_empresa_header').innerText = document.getElementById('conf_razon').value || "NOMBRE EMPRESA S.A.S.";
+    document.getElementById('p_nit_header').innerText = "NIT: " + (document.getElementById('conf_nit').value || "000.000.000-0");
+    document.getElementById('pdf_nombre').innerText = document.getElementById('emp_nombre').value || "No especificado";
+    document.getElementById('pdf_cc').innerText = document.getElementById('emp_cc').value || "No especificada";
+    document.getElementById('pdf_cargo').innerText = document.getElementById('emp_cargo').value || "No especificado";
     
-// EL APRENDIZ NO PAGA PENSIÓN
-const pens_t = esAprendiz ? 0 : ibc * 0.04; // Valor fijo
+    // Si el usuario escribió una obra, se verá: "Obra o Labor (Nombre de la obra)"
+    document.getElementById('pdf_contrato').innerText = nombreObra && selContrato.value === "Obra-o-Labor" ? `${textoContrato} (${nombreObra})` : textoContrato;
 
-    document.getElementById('modalCompartir').style.display = 'flex';
+    document.getElementById('pdf_fi').innerText = document.getElementById('fecha_inicio').value || "--/--/----";
+    document.getElementById('pdf_ff').innerText = document.getElementById('fecha_fin').value || "--/--/----";
+    document.getElementById('pdf_dt').innerText = data.dias;
+    document.getElementById('pdf_sal').innerText = f.format(data.sueldo);
+    document.getElementById('pdf_auxt').innerText = f.format(data.aux_real);
+    document.getElementById('pdf_base_p').innerText = f.format(data.baseP);
 
-    // 6. Deducciones extras (Tomadas de los datos procesados)
-    const cons = data.r_cons;
-    const otros = data.r_otros;
+    // 4. LLENAR TABLA PDF: PRESTACIONES
+    document.getElementById('pdf_tabla_pres').innerHTML = `
+        <tr>
+            <td>Prima de Servicios</td>
+            <td>${f.format(data.baseP)}<br><small style="color:#64748b">(Sueldo + Aux. Transp.)</small></td>
+            <td>${data.dias}</td>
+            <td>${f.format(data.r_prima)}</td>
+        </tr>
+        <tr>
+            <td>Cesantías</td>
+            <td>${f.format(data.baseP)}<br><small style="color:#64748b">(1 mes por año laborado)</small></td>
+            <td>${data.dias}</td>
+            <td>${f.format(data.r_cesantias)}</td>
+        </tr>
+        <tr>
+            <td>Intereses s/ Cesantías</td>
+            <td>${f.format(data.r_cesantias)}<br><small style="color:#64748b">(12% anual sobre cesantías)</small></td>
+            <td>${data.dias}</td>
+            <td>${f.format(data.r_intCes)}</td>
+        </tr>
+        <tr>
+            <td>Vacaciones</td>
+            <td>${f.format(data.sueldo)}<br><small style="color:#64748b">(Sueldo base sin Aux. T)</small></td>
+            <td>${data.dias}</td>
+            <td>${f.format(data.r_vacas)}</td>
+        </tr>
+        ${data.valor_vac_pendientes > 0 ? `<tr><td>Vacaciones Pendientes</td><td>${data.d_vac_pendientes} días</td><td>--</td><td>${f.format(data.valor_vac_pendientes)}</td></tr>` : ''}
+    `;
 
-
-
-
-
-
-    // 7. LLENAR DATOS BÁSICOS EN EL PDF
-    document.getElementById('p_empresa_header').innerText = document.getElementById('conf_razon').value;
-    document.getElementById('p_nit_header').innerText = "NIT: " + document.getElementById('conf_nit').value;
-    document.getElementById('pdf_nombre').innerText = document.getElementById('emp_nombre').value;
-    document.getElementById('pdf_cc').innerText = document.getElementById('emp_cc').value;
-    document.getElementById('pdf_cargo').innerText = document.getElementById('emp_cargo').value;
-    
-    // Capturar el tipo de contrato y el nombre de la obra si existe
-const nombreObra = document.getElementById('nombre_obra').value;
-const textoContrato = selContrato.options[selContrato.selectedIndex].text;
-
-// Si el usuario escribió una obra, se verá: "Obra o Labor (Nombre de la obra)"
-document.getElementById('pdf_contrato').innerText = nombreObra ? `${textoContrato} (${nombreObra})` : textoContrato;
-
-document.getElementById('pdf_fi').innerText = document.getElementById('fecha_inicio').value;
-document.getElementById('pdf_ff').innerText = document.getElementById('fecha_fin').value;
-document.getElementById('pdf_dt').innerText = data.dias;
-document.getElementById('pdf_sal').innerText = data.f.format(data.sueldo); // Agregamos data.f
-document.getElementById('pdf_auxt').innerText = data.f.format(data.aux_real);
-document.getElementById('pdf_base_p').innerText = data.f.format(data.baseP);
-
-   // 7. LLENAR TABLAS PDF
-document.getElementById('pdf_tabla_pres').innerHTML = `
-    <tr>
-        <td>Prima de Servicios</td>
-        <td>${data.f.format(data.baseP)}<br><small style="color:#64748b">(Sueldo + Aux. Transp.)</small></td>
-        <td>${data.dias}</td>
-        <td>${data.f.format(data.r_prima)}</td>
-    </tr>
-    <tr>
-        <td>Cesantías</td>
-        <td>${data.f.format(data.baseP)}<br><small style="color:#64748b">(1 mes por año laborado)</small></td>
-        <td>${data.dias}</td>
-        <td>${data.f.format(data.r_cesantias)}</td>
-    </tr>
-    <tr>
-        <td>Intereses s/ Cesantías</td>
-        <td>${data.f.format(data.r_cesantias)}<br><small style="color:#64748b">(12% anual sobre cesantías)</small></td>
-        <td>${data.dias}</td>
-        <td>${data.f.format(data.r_intCes)}</td>
-    </tr>
-    <tr>
-        <td>Vacaciones</td>
-        <td>${data.f.format(data.sueldo)}<br><small style="color:#64748b">(Sueldo base sin Aux. T)</small></td>
-        <td>${data.dias}</td>
-        <td>${data.f.format(data.r_vacas)}</td>
-    </tr>
-`;
+    // 5. LLENAR TABLA PDF: NÓMINA E INGRESOS ADICIONALES
 
 document.getElementById('pdf_tabla_nom').innerHTML = `
     <tr>
-        <td>Sueldo Periodo (${data.dias} días)</td>
-        <td>${f.format((data.sueldo / 30) * data.dias)}</td>
+        <td>Sueldo Último Mes (Proporcional)</td>
+        <td>${f.format(data.sueldo)}</td> 
     </tr>
-    ${totalRecargosYExtras > 0 ? `<tr><td>Horas Extra y Recargos (Total)</td><td>${f.format(totalRecargosYExtras)}</td></tr>` : ''}
-    ${indem > 0 ? `<tr><td>Indemnización Art. 64</td><td>${f.format(indem)}</td></tr>` : ''}
+    ${data.valor_sueldo_pendiente > 0 ? `
+        <tr>
+            <td>Sueldo Pendiente (${data.d_pendientes} días)</td>
+            <td>${f.format(data.valor_sueldo_pendiente)}</td>
+        </tr>
+        <tr>
+            <td>Auxilio de Transporte (${data.d_pendientes} días)</td>
+            <td>${f.format((249095 / 30) * data.d_pendientes)}</td>
+        </tr>
+    ` : ''}
+    ${data.totalRecargos > 0 ? `<tr><td>Horas Extra y Recargos</td><td>${f.format(data.totalRecargos)}</td></tr>` : ''}
+    ${data.v_indem > 0 ? `<tr><td>Indemnización Art. 64</td><td>${f.format(data.v_indem)}</td></tr>` : ''}
 `;
 
-document.getElementById('pdf_tabla_ded').innerHTML = `
-    <tr><td>Seguridad Social (Salud)</td><td>4% sobre IBC</td><td style="color:red">-${data.f.format(data.r_salud)}</td></tr>
-    <tr><td>Seguridad Social (Pensión)</td><td>4% sobre IBC</td><td style="color:red">-${data.f.format(data.r_pension)}</td></tr>
-    ${data.r_cons > 0 ? `<tr><td>Consumos / Almuerzos</td><td>Deducción</td><td style="color:red">-${data.f.format(data.r_cons)}</td></tr>` : ''}
-    ${data.r_otros > 0 ? `<tr><td>Otros Descuentos</td><td>Varios</td><td style="color:red">-${data.f.format(data.r_otros)}</td></tr>` : ''}
-    <tr style="font-weight:bold"><td>TOTAL DEDUCCIONES</td><td></td><td style="color:red">-${data.f.format(data.total_deducciones)}</td></tr>
-`;
+   /* 
+    document.getElementById('pdf_tabla_nom').innerHTML = `
+        <tr>
+            <td>Sueldo Periodo (${data.dias} días)</td>
+            <td>${f.format((data.sueldo / 30) * data.dias)}</td>
+        </tr>
+        ${data.valor_sueldo_pendiente > 0 ? `<tr><td>Sueldo Pendiente (${data.d_pendientes} días)</td><td>${f.format(data.valor_sueldo_pendiente)}</td></tr>` : ''}
+        ${data.totalRecargos > 0 ? `<tr><td>Horas Extra y Recargos (Total)</td><td>${f.format(data.totalRecargos)}</td></tr>` : ''}
+        ${data.v_indem > 0 ? `<tr><td>Indemnización Art. 64</td><td>${f.format(data.v_indem)}</td></tr>` : ''}
+        ${data.v_dotacion > 0 ? `<tr><td>Dotación</td><td>${f.format(data.v_dotacion)}</td></tr>` : ''}
+        ${data.v_bonos > 0 ? `<tr><td>Bonificaciones Extra</td><td>${f.format(data.v_bonos)}</td></tr>` : ''}
+    `;
 
+    */
 
-    // 8. TOTAL NETO Y CIERRE 
-   // 8. TOTAL NETO Y CIERRE (Sincronizado con la pantalla)
+    // 6. LLENAR TABLA PDF: DEDUCCIONES
+    // Extraemos el valor del FSP por diferencia matemática ya que no se retorna en actualizarTodo
+    const r_fsp = data.total_deducciones - data.r_salud - data.r_pension - data.r_cons - data.r_otros;
+
+    document.getElementById('pdf_tabla_ded').innerHTML = `
+        <tr><td>Seguridad Social (Salud)</td><td>4% sobre IBC</td><td style="color:red">-${f.format(data.r_salud)}</td></tr>
+        <tr><td>Seguridad Social (Pensión)</td><td>4% sobre IBC</td><td style="color:red">-${f.format(data.r_pension)}</td></tr>
+        ${r_fsp > 0.01 ? `<tr><td>Fondo Solidaridad Pensional (FSP)</td><td>1%</td><td style="color:red">-${f.format(r_fsp)}</td></tr>` : ''}
+        ${data.r_cons > 0 ? `<tr><td>Consumos / Almuerzos</td><td>Deducción</td><td style="color:red">-${f.format(data.r_cons)}</td></tr>` : ''}
+        ${data.r_otros > 0 ? `<tr><td>Otros Descuentos</td><td>Varios</td><td style="color:red">-${f.format(data.r_otros)}</td></tr>` : ''}
+        <tr style="font-weight:bold"><td>TOTAL DEDUCCIONES</td><td></td><td style="color:red">-${f.format(data.total_deducciones)}</td></tr>
+    `;
+
+    // 7. TOTAL NETO Y CIERRE 
     const netoCerrado = data.neto_final_real; 
     
-    document.getElementById('pdf_gran_total').innerText = data.f.format(netoCerrado);
+    document.getElementById('pdf_gran_total').innerText = f.format(netoCerrado);
     document.getElementById('pdf_letras').innerText = numeroALetras(Math.round(netoCerrado));
     document.getElementById('pdf_pazysalvo').style.display = document.getElementById('check_paz').checked ? 'block' : 'none';
     document.getElementById('p_fecha_actual').innerText = "Generado el: " + new Date().toLocaleDateString();
-    // 9. FIRMAS
-    document.getElementById('pdf_firma_emp').innerText = document.getElementById('conf_rep').value;
-    document.getElementById('pdf_firma_trab').innerText = document.getElementById('emp_nombre').value;
-    document.getElementById('pdf_cc_firma').innerText = document.getElementById('emp_cc').value;
+    
+    // 8. FIRMAS
+    document.getElementById('pdf_firma_emp').innerText = document.getElementById('conf_rep').value || "___________________________";
+    document.getElementById('pdf_firma_trab').innerText = document.getElementById('emp_nombre').value || "___________________________";
+    document.getElementById('pdf_cc_firma').innerText = document.getElementById('emp_cc').value || "--------------";
 
-    // 10. MOSTRAR RESULTADOS Y MODAL
-    document.getElementById('pdf-preview-area').style.display = 'block';
+    // 9. MOSTRAR RESULTADOS Y MODAL
+    /*document.getElementById('pdf-preview-area').style.display = 'block';*/
     document.getElementById('modalCompartir').style.display = 'flex'; // ABRIR MINI VENTANA
     
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+// Al final de la función generarPrevisualizacion
+const netoPantalla = data.neto_final_real; 
+document.getElementById('pdf_gran_total').innerText = f.format(netoPantalla);
+document.getElementById('pdf_letras').innerText = numeroALetras(Math.round(netoPantalla));
+
 }
+
+
+
+
+
+
+
+
 /*FIN DE TABLAS PDF*/
 
 
